@@ -9,10 +9,13 @@ public class ExampleWaterBoiling {
 	// Note: To make the example code cleaner we do not handle exceptions. Exceptions you
 	//       might normally want to catch are described in the commnents below
 	public static void main(String args[]) throws Exception {
-		IPConnection ipcon = new IPConnection(host, port); // Create connection to brickd (Can throw IOException)
+		// Create connection to brickd
+		IPConnection ipcon = new IPConnection(host, port); // Can throw IOException
 
 		BrickletTemperatureIR tir = new BrickletTemperatureIR(UID); // Create device object
-		ipcon.addDevice(tir); // Add device to ip connection (Can throw IPConnection.TimeoutException)
+		
+		// Add device to ip connection
+		ipcon.addDevice(tir); // Can throw IPConnection.TimeoutException
 		// Don't use device before it is added to a connection
 		
 
@@ -25,10 +28,12 @@ public class ExampleWaterBoiling {
 		// Configure threshold for "object temperature greater than 100 °C" (unit is °C/10)
 		tir.setObjectTemperatureCallbackThreshold('>', (short)(100*10), (short)0);
 
-		// Add and implement temperature reached listener (called if object temperature is greater than 100 °C)
+		// Add and implement temperature reached listener 
+		// (called if object temperature is greater than 100 °C)
 		tir.addListener(new BrickletTemperatureIR.ObjectTemperatureReachedListener() {
 			public void objectTemperatureReached(short temperature) {
-				System.out.println("The surface has a temperature of " + temperature/10.0 + " °C.");
+				System.out.println("The surface has a temperature of " + 
+				                   temperature/10.0 + " °C.");
 				System.out.println("The water is boiling!");
 			}
 		});
