@@ -5,8 +5,8 @@ HOST = "localhost"
 PORT = 4223
 UID = "abcde" # Change to your UID
 
-from ip_connection import IPConnection
-from bricklet_temperature_ir import TemperatureIR
+from tinkerforge.ip_connection import IPConnection
+from tinkerforge.bricklet_temperature_ir import TemperatureIR
 
 if __name__ == "__main__":
     ipcon = IPConnection(HOST, PORT) # Create ip connection to brickd
