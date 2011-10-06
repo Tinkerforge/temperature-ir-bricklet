@@ -30,6 +30,11 @@
 
 #include "temperature-ir.h"
 
+#define BRICKLET_HARDWARE_NAME "Temperature-IR Bricklet 1.0"
+#define BRICKLET_FIRMWARE_VERSION_MAJOR 1
+#define BRICKLET_FIRMWARE_VERSION_MINOR 0
+#define BRICKLET_FIRMWARE_VERSION_REVISION 0
+
 #define PIN_I2C_SWITCH   (BS->pin1_ad)
 #define PIN_SCL          (BS->pin2_da)
 #define PIN_SDA_PWM      (BS->pin3_pwm)
