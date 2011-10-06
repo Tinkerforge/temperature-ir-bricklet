@@ -1,7 +1,3 @@
-// tested with 
-// gcc -lpthread -lrt -o example_water_boiling bricklet_temperature_ir.c 
-//     ip_connection.c example_water_boiling.c
-// on Ubuntu
 
 #include <stdio.h>
 
