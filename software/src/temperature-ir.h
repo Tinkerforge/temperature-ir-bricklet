@@ -109,7 +109,7 @@ void get_emissivity(uint8_t com, GetEmissivity *data);
 void invocation(uint8_t com, uint8_t *data);
 void constructor(void);
 void destructor(void);
-void tick(void);
+void tick(uint8_t tick_type);
 
 void ir_temp_set_emissivity_correction(uint16_t value, uint8_t part);
 void ir_temp_get_emissivity_correction(void);

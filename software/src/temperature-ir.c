@@ -25,6 +25,7 @@
 
 #include "brickletlib/bricklet_entry.h"
 #include "bricklib/bricklet/bricklet_communication.h"
+#include "bricklib/utility/init.h"
 #include "config.h"
 
 #define SIMPLE_UNIT_AMBIENT_TEMPERATURE 0
@@ -93,35 +94,37 @@ void destructor(void) {
 	simple_destructor();
 }
 
-void tick(void) {
-	// Wait 20 ms for MLX90614 to start up
-	if(BC->startup_counter > 0) {
-		BC->startup_counter--;
-		if(BC->startup_counter == 0) {
-			// Get start emissivity
-			ir_temp_get_emissivity_correction();
-		}
-
-		return;
-	}
-	if(BC->emissivity_counter > 0) {
-		BC->emissivity_counter--;
-		if(BC->emissivity_counter == 0) {
-			if(BC->emissivity_state == IR_TEMP_SET_EMISSIVITY_START) {
-				ir_temp_set_emissivity_correction(BC->emissivity.data,
-												  IR_TEMP_SET_EMISSIVITY_END);
+void tick(uint8_t tick_type) {
+	if(tick_type & TICK_TASK_TYPE_CALCULATION) {
+		// Wait 20 ms for MLX90614 to start up
+		if(BC->startup_counter > 0) {
+			BC->startup_counter--;
+			if(BC->startup_counter == 0) {
+				// Get start emissivity
+				ir_temp_get_emissivity_correction();
 			}
+
+			return;
+		}
+		if(BC->emissivity_counter > 0) {
+			BC->emissivity_counter--;
+			if(BC->emissivity_counter == 0) {
+				if(BC->emissivity_state == IR_TEMP_SET_EMISSIVITY_START) {
+					ir_temp_set_emissivity_correction(BC->emissivity.data,
+													  IR_TEMP_SET_EMISSIVITY_END);
+				}
+			}
+
+			return;
 		}
 
-		return;
+		// Updating the temperatures consecutively every 125ms is often enough
+		if((BC->tick % 125) == 0) {
+			ir_temp_next_value();
+		}
 	}
 
-    // Updating the temperatures consecutively every 125ms is often enough
-    if((BC->tick % 125) == 0) {
-    	ir_temp_next_value();
-    }
-
-    simple_tick();
+    simple_tick(tick_type);
 }
 
 void set_emissivity(uint8_t com, SetEmissivity *data) {
