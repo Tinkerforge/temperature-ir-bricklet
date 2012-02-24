@@ -67,6 +67,7 @@ void invocation(uint8_t com, uint8_t *data) {
 }
 
 void constructor(void) {
+	BC->value_tick = 0;
 	BC->emissivity_counter = 0;
 	BC->startup_counter = 255; // MLX90614 needs 20ms for startup
 	BC->next_address = I2C_INTERNAL_ADDRESS_TA;
@@ -119,8 +120,11 @@ void tick(uint8_t tick_type) {
 		}
 
 		// Updating the temperatures consecutively every 125ms is often enough
-		if((BC->tick % 125) == 0) {
-			ir_temp_next_value();
+		BC->value_tick++;
+		if((BC->value_tick % 125) == 0) {
+			if(!ir_temp_next_value()) {
+				BC->value_tick--;
+			}
 		}
 	}
 
@@ -274,10 +278,10 @@ uint8_t ir_temp_calculate_pec(uint8_t *data, uint8_t length) {
 	return crc >> 8;
 }
 
-void ir_temp_next_value(void) {
+bool ir_temp_next_value(void) {
 	// Mutex is given in callback
 	if(!BA->mutex_take(*BA->mutex_twi_bricklet, 0)) {
-		return;
+		return false;
 	}
 
 	// Switch to 100khz
@@ -296,6 +300,8 @@ void ir_temp_next_value(void) {
                   (uint8_t *)&BC->temperature,
                   I2C_DATA_LENGTH,
                   &BC->async);
+
+    return true;
 }
 
 // Calculate 10th degree celsius

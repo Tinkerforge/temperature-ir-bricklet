@@ -33,7 +33,7 @@
 #define BRICKLET_HARDWARE_NAME "Temperature-IR Bricklet 1.0"
 #define BRICKLET_FIRMWARE_VERSION_MAJOR 1
 #define BRICKLET_FIRMWARE_VERSION_MINOR 1
-#define BRICKLET_FIRMWARE_VERSION_REVISION 0
+#define BRICKLET_FIRMWARE_VERSION_REVISION 1
 
 #define PIN_I2C_SWITCH   (BS->pin1_ad)
 #define PIN_SCL          (BS->pin2_da)
@@ -74,6 +74,7 @@ typedef struct {
 	char     threshold_option_save[NUM_SIMPLE_VALUES];
 
 	uint32_t tick;
+	uint32_t value_tick;
 } BrickContext;
 
 #endif

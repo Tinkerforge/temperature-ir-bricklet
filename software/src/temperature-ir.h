@@ -121,5 +121,5 @@ void ir_temp_callback_set_emissivity(void);
 void ir_temp_callback_get_emissivity(void);
 void ir_temp_callback_value(void);
 void ir_temp_write(const uint8_t internal_address, uint16_t value);
-void ir_temp_next_value(void);
+bool ir_temp_next_value(void);
 #endif
