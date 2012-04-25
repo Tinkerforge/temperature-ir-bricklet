@@ -19,7 +19,7 @@ void cb_ambient(uint16_t temperature) {
 }
 
 int main() {
-	// Create ip connection to brickd
+	// Create IP connection to brickd
 	IPConnection ipcon;
 	if(ipcon_create(&ipcon, HOST, PORT) < 0) {
 		fprintf(stderr, "Could not create connection\n");
@@ -30,7 +30,7 @@ int main() {
 	TemperatureIR tir;
 	temperature_ir_create(&tir, UID); 
 
-	// Add device to ip connection
+	// Add device to IP connection
 	if(ipcon_add_device(&ipcon, &tir) < 0) {
 		fprintf(stderr, "Could not connect to Brick\n");
 		exit(1);
@@ -54,5 +54,5 @@ int main() {
 	                                 cb_ambient);
 
 	printf("Press ctrl+c to close\n");
-	ipcon_join_thread(&ipcon); // Join mainloop of ip connection
+	ipcon_join_thread(&ipcon); // Join mainloop of IP connection
 }

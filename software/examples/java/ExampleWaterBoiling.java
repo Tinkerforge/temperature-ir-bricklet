@@ -11,13 +11,11 @@ public class ExampleWaterBoiling {
 	public static void main(String args[]) throws Exception {
 		// Create connection to brickd
 		IPConnection ipcon = new IPConnection(host, port); // Can throw IOException
-
 		BrickletTemperatureIR tir = new BrickletTemperatureIR(UID); // Create device object
-		
-		// Add device to ip connection
+
+		// Add device to IP connection
 		ipcon.addDevice(tir); // Can throw IPConnection.TimeoutException
 		// Don't use device before it is added to a connection
-		
 
 		// Set emissivity to 0.98 (emissivity of water)
 		tir.setEmissivity((int)(0xFFFF*0.98));
@@ -37,7 +35,7 @@ public class ExampleWaterBoiling {
 				System.out.println("The water is boiling!");
 			}
 		});
-		
+
 		System.out.println("Press ctrl+c to exit");
 		ipcon.joinThread();
 	}

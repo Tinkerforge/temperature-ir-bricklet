@@ -11,13 +11,11 @@ public class ExampleSimple {
 	public static void main(String args[]) throws Exception {
 		// Create connection to brickd
 		IPConnection ipcon = new IPConnection(host, port); // Can throw IOException
-
 		BrickletTemperatureIR tir = new BrickletTemperatureIR(UID); // Create device object
 
-		// Add device to ip connection
+		// Add device to IP connection
 		ipcon.addDevice(tir); // Can throw IPConnection.TimeoutException
 		// Don't use device before it is added to a connection
-		
 
 		// Get current object and ambient temperature (unit is °C/10)
 		short obj = tir.getObjectTemperature(); // Can throw IPConnection.TimeoutException
@@ -25,7 +23,7 @@ public class ExampleSimple {
 
 		System.out.println("Object Temperature: " + obj/10.0 + " °C");
 		System.out.println("Ambient Temperature: " + amb/10.0 + " °C");
-		
+
 		System.out.println("Press ctrl+c to exit");
 		ipcon.joinThread();
 	}
