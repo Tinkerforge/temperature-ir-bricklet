@@ -14,11 +14,8 @@ class Example
 		// Don't use device before it is added to a connection
 
 		// Get current object and ambient temperatures (unit is °C/10)
-		short obj;
-		short amb;
-
-		temp.GetObjectTemperature(out obj);
-		temp.GetAmbientTemperature(out amb);
+		short obj = temp.GetObjectTemperature();
+		short amb = temp.GetAmbientTemperature();
 
 		System.Console.WriteLine("Object Temperature: " + obj/10.0 + " °C");
 		System.Console.WriteLine("Ambient Temperature: " + amb/10.0 + " °C");
