@@ -28,8 +28,8 @@ int main() {
 	// Don't use device before it is added to a connection
 
 	// Get current ambient and object temperatures (unit is °C/10)
-	uint16_t obj;
-	uint16_t amb;
+	int16_t obj;
+	int16_t amb;
 	temperature_ir_get_object_temperature(&tir, &obj);
 	temperature_ir_get_ambient_temperature(&tir, &amb);
 
