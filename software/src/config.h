@@ -30,7 +30,7 @@
 
 #include "temperature-ir.h"
 
-#define BRICKLET_HARDWARE_NAME "Temperature-IR Bricklet 1.0"
+#define BRICKLET_HARDWARE_NAME "Temperature IR Bricklet 1.0"
 #define BRICKLET_FIRMWARE_VERSION_MAJOR 1
 #define BRICKLET_FIRMWARE_VERSION_MINOR 1
 #define BRICKLET_FIRMWARE_VERSION_REVISION 1
