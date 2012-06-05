@@ -22,7 +22,7 @@ tir.set_emissivity((0xFFFF*0.98).to_i)
 tir.set_debounce_period 10000
 
 # Register Callback for object temperature greater than 100 °C (parameter has unit °C/10)
-tir.register_callback BrickletTemperatureIR::CALLBACK_OBJECT_TEMPERATURE_REACHED, do |temperature|
+tir.register_callback(BrickletTemperatureIR::CALLBACK_OBJECT_TEMPERATURE_REACHED) do |temperature|
   puts "The surface has a temperature of #{temperature/10.0} °C."
   puts "The water is boiling!"
 end

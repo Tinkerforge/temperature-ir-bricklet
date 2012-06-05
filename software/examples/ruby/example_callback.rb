@@ -22,12 +22,12 @@ tir.set_object_temperature_callback_period 1000
 tir.set_ambient_temperature_callback_period 1000
 
 # Register callback function for object temperature callback (parameters have unit °C/10)
-tir.register_callback BrickletTemperatureIR::CALLBACK_OBJECT_TEMPERATURE, do |temperature|
+tir.register_callback(BrickletTemperatureIR::CALLBACK_OBJECT_TEMPERATURE) do |temperature|
   puts "Object Temperature: #{temperature/10.0} °C"
 end
 
 # Register callback function for ambient temperature callback (parameters have unit °C/10)
-tir.register_callback BrickletTemperatureIR::CALLBACK_AMBIENT_TEMPERATURE, do |temperature|
+tir.register_callback(BrickletTemperatureIR::CALLBACK_AMBIENT_TEMPERATURE) do |temperature|
   puts "Ambient Temperature: #{temperature/10.0} °C"
 end
 
