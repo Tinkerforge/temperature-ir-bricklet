@@ -53,6 +53,7 @@ int main() {
 	                                 TEMPERATURE_IR_CALLBACK_AMBIENT_TEMPERATURE, 
 	                                 cb_ambient);
 
-	printf("Press ctrl+c to close\n");
-	ipcon_join_thread(&ipcon); // Join mainloop of IP connection
+	printf("Press key to exit\n");
+	getchar();
+	ipcon_destroy(&ipcon);
 }

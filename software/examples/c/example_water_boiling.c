@@ -33,24 +33,25 @@ int main() {
 		exit(1);
 	}
 	// Don't use device before it is added to a connection
-	
-    // Set emissivity to 0.98 (emissivity of water)
-    temperature_ir_set_emissivity(&tir, (int)0xFFFF*0.98);
 
-    // Get threshold callbacks with a debounce time of 10 seconds (10000ms)
-    temperature_ir_set_debounce_period(&tir, 10000);
+	// Set emissivity to 0.98 (emissivity of water)
+	temperature_ir_set_emissivity(&tir, (int)0xFFFF*0.98);
 
-    // Register threshold reached callback to function cb_reached
-    temperature_ir_register_callback(&tir,
+	// Get threshold callbacks with a debounce time of 10 seconds (10000ms)
+	temperature_ir_set_debounce_period(&tir, 10000);
+
+	// Register threshold reached callback to function cb_reached
+	temperature_ir_register_callback(&tir,
 	                                 TEMPERATURE_IR_CALLBACK_OBJECT_TEMPERATURE_REACHED,
 	                                 cb_reached);
-	
-	// Configure threshold for "greater than 100 °C" (unit is °C/10)
-    temperature_ir_set_object_temperature_callback_threshold(&tir, 
-	                                                         '>', 
-															 100*10, 
-															 0);
 
-	printf("Press ctrl+c to close\n");
-	ipcon_join_thread(&ipcon); // Join mainloop of IP connection
+	// Configure threshold for "greater than 100 °C" (unit is °C/10)
+	temperature_ir_set_object_temperature_callback_threshold(&tir,
+	                                                         '>',
+	                                                         100*10,
+	                                                         0);
+
+	printf("Press key to exit\n");
+	getchar();
+	ipcon_destroy(&ipcon);
 }

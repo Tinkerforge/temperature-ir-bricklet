@@ -36,6 +36,7 @@ int main() {
 	printf("Object Temperature: %f °C\n", obj/10.0);
 	printf("Ambient Temperature: %f °C\n", amb/10.0);
 
-	printf("Press ctrl+c to close\n");
-	ipcon_join_thread(&ipcon); // Join mainloop of IP connection
+	printf("Press key to exit\n");
+	getchar();
+	ipcon_destroy(&ipcon);
 }

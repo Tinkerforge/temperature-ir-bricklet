@@ -24,7 +24,7 @@ public class ExampleSimple {
 		System.out.println("Object Temperature: " + obj/10.0 + " °C");
 		System.out.println("Ambient Temperature: " + amb/10.0 + " °C");
 
-		System.out.println("Press ctrl+c to exit");
-		ipcon.joinThread();
+		System.console().readLine("Press key to exit\n");
+		ipcon.destroy();
 	}
 }
