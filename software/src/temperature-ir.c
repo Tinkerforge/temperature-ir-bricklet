@@ -1,5 +1,5 @@
 /* temperature-ir-bricklet
- * Copyright (C) 2010-2011 Olaf Lüke <olaf@tinkerforge.com>
+ * Copyright (C) 2010-2012 Olaf Lüke <olaf@tinkerforge.com>
  *
  * temperature-ir.c: Implementation of Temperature-IR Bricklet messages
  *
@@ -21,9 +21,8 @@
 
 #include "temperature-ir.h"
 
-#include <adc/adc.h>
-
 #include "brickletlib/bricklet_entry.h"
+#include "brickletlib/bricklet_simple.h"
 #include "bricklib/bricklet/bricklet_communication.h"
 #include "bricklib/utility/init.h"
 #include "config.h"
@@ -49,21 +48,27 @@ const SimpleMessageProperty smp[] = {
 };
 
 const SimpleUnitProperty sup[] = {
-	{0, SIMPLE_SIGNEDNESS_INT, TYPE_AMBIENT_TEMPERATURE, TYPE_AMBIENT_TEMPERATURE_REACHED, SIMPLE_UNIT_AMBIENT_TEMPERATURE}, // ambient temperature
-	{0, SIMPLE_SIGNEDNESS_INT, TYPE_OBJECT_TEMPERATURE, TYPE_OBJECT_TEMPERATURE_REACHED, SIMPLE_UNIT_OBJECT_TEMPERATURE} // object temperature
+	{0, SIMPLE_SIGNEDNESS_INT, FID_AMBIENT_TEMPERATURE, FID_AMBIENT_TEMPERATURE_REACHED, SIMPLE_UNIT_AMBIENT_TEMPERATURE}, // ambient temperature
+	{0, SIMPLE_SIGNEDNESS_INT, FID_OBJECT_TEMPERATURE, FID_OBJECT_TEMPERATURE_REACHED, SIMPLE_UNIT_OBJECT_TEMPERATURE} // object temperature
 };
 
-void invocation(uint8_t com, uint8_t *data) {
-	switch(((SimpleStandardMessage*)data)->type) {
-		case TYPE_SET_EMISSIVITY:
+const uint8_t smp_length = sizeof(smp);
+
+void invocation(const ComType com, const uint8_t *data) {
+	switch(((MessageHeader*)data)->fid) {
+		case FID_SET_EMISSIVITY:
 			set_emissivity(com, (SetEmissivity*)data);
 			return;
-		case TYPE_GET_EMISSIVITY:
+		case FID_GET_EMISSIVITY:
 			get_emissivity(com, (GetEmissivity*)data);
 			return;
 	}
 
 	simple_invocation(com, data);
+
+	if(((MessageHeader*)data)->fid > FID_LAST) {
+		BA->com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_NOT_SUPPORTED, com);
+	}
 }
 
 void constructor(void) {
@@ -95,7 +100,7 @@ void destructor(void) {
 	simple_destructor();
 }
 
-void tick(uint8_t tick_type) {
+void tick(const uint8_t tick_type) {
 	if(tick_type & TICK_TASK_TYPE_CALCULATION) {
 		// Wait 20 ms for MLX90614 to start up
 		if(BC->startup_counter > 0) {
@@ -131,18 +136,19 @@ void tick(uint8_t tick_type) {
     simple_tick(tick_type);
 }
 
-void set_emissivity(uint8_t com, SetEmissivity *data) {
+void set_emissivity(const ComType com, const SetEmissivity *data) {
 	ir_temp_set_emissivity_correction(data->emissivity,
 	                                  IR_TEMP_SET_EMISSIVITY_START);
+
+	BA->com_return_setter(com, data);
 }
 
-void get_emissivity(uint8_t com, GetEmissivity *data) {
-	GetEmissivityReturn ger = {
-		data->stack_id,
-		data->type,
-		sizeof(GetEmissivityReturn),
-		BC->emissivity.data
-	};
+void get_emissivity(const ComType com, const GetEmissivity *data) {
+	GetEmissivityReturn ger;
+
+	ger.header        = data->header;
+	ger.header.length = sizeof(GetEmissivityReturn);
+	ger.emissivity    = BC->emissivity.data;
 
 	BA->send_blocking_with_timeout(&ger,
 	                               sizeof(GetEmissivityReturn),
@@ -196,10 +202,11 @@ void ir_temp_callback_get_emissivity(void) {
 	BA->mutex_give(*BA->mutex_twi_bricklet);
 }
 
-void ir_temp_set_emissivity_correction(uint16_t value, uint8_t part) {
+void ir_temp_set_emissivity_correction(const uint16_t value, const uint8_t part) {
+	uint16_t write_value = value;
 	// Check minimum value
-	if(value < 0xFFFF/10) {
-		value = 0xFFFF/10;
+	if(write_value < 0xFFFF/10) {
+		write_value = 0xFFFF/10;
 	}
 
 	// Mutex is given in callback
@@ -216,12 +223,12 @@ void ir_temp_set_emissivity_correction(uint16_t value, uint8_t part) {
 		BC->data[2] = 0;
 		BC->data[3] = 0;
 		BC->data[4] = ir_temp_calculate_pec(BC->data, 4);
-		BC->emissivity.data = value;
+		BC->emissivity.data = write_value;
 		BC->emissivity_state = IR_TEMP_SET_EMISSIVITY_START;
 	} else if(part == IR_TEMP_SET_EMISSIVITY_END) {
 		BC->data[0] = I2C_ADDRESS << 1;
 		BC->data[1] = I2C_INTERNAL_ADDRESS_EMISSIVITY;
-		*((uint16_t*)(&BC->data[2])) = value;
+		*((uint16_t*)(&BC->data[2])) = write_value;
 		BC->data[4] = ir_temp_calculate_pec(BC->data, 4);
 		BC->emissivity_state = IR_TEMP_SET_EMISSIVITY_END;
 	}
@@ -263,7 +270,7 @@ void ir_temp_get_emissivity_correction(void) {
                   &BC->async);
 }
 
-uint8_t ir_temp_calculate_pec(uint8_t *data, uint8_t length) {
+uint8_t ir_temp_calculate_pec(const uint8_t *data, const uint8_t length) {
 	uint16_t crc = 0;
 	for(uint8_t i = 0; i < length; i++) {
 		crc = ((crc >> 8) ^ data[i]) << 8;
@@ -305,6 +312,6 @@ bool ir_temp_next_value(void) {
 }
 
 // Calculate 10th degree celsius
-int16_t ir_temp_to_celsius(int16_t temp) {
+int16_t ir_temp_to_celsius(const int16_t temp) {
 	return temp/5 - 2731;
 }

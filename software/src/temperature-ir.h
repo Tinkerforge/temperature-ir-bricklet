@@ -1,5 +1,5 @@
 /* temperature-ir-bricklet
- * Copyright (C) 2010-2011 Olaf Lüke <olaf@tinkerforge.com>
+ * Copyright (C) 2010-2012 Olaf Lüke <olaf@tinkerforge.com>
  *
  * temperature-ir.h: Implementation of Temperature-IR Bricklet messages
  *
@@ -23,6 +23,7 @@
 #define TEMPERATURE_IR_H
 
 #include <stdint.h>
+#include "bricklib/com/com_common.h"
 
 #define I2C_ADDRESS 0x5A // Factory default
 #define I2C_INTERNAL_ADDRESS_BYTES 1
@@ -48,24 +49,26 @@
 #define PWM_REPETITION(v)           ((v) << 4)
 #define PWM_PERIOD(v)               ((v) << 9)
 
-#define TYPE_GET_AMBIENT_TEMPERATURE 1
-#define TYPE_GET_OBJECT_TEMPERATURE 2
-#define TYPE_SET_EMISSIVITY 3
-#define TYPE_GET_EMISSIVITY 4
-#define TYPE_SET_AMBIENT_TEMPERATURE_CALLBACK_PERIOD 5
-#define TYPE_GET_AMBIENT_TEMPERATURE_CALLBACK_PERIOD 6
-#define TYPE_SET_OBJECT_TEMPERATURE_CALLBACK_PERIOD 7
-#define TYPE_GET_OBJECT_TEMPERATURE_CALLBACK_PERIOD 8
-#define TYPE_SET_AMBIENT_TEMPERATURE_CALLBACK_THRESHOLD 9
-#define TYPE_GET_AMBIENT_TEMPERATURE_CALLBACK_THRESHOLD 10
-#define TYPE_SET_OBJECT_TEMPERATURE_CALLBACK_THRESHOLD 11
-#define TYPE_GET_OBJECT_TEMPERATURE_CALLBACK_THRESHOLD 12
-#define TYPE_SET_DEBOUNCE_PERIOD 13
-#define TYPE_GET_DEBOUNCE_PERIOD 14
-#define TYPE_AMBIENT_TEMPERATURE 15
-#define TYPE_OBJECT_TEMPERATURE 16
-#define TYPE_AMBIENT_TEMPERATURE_REACHED 17
-#define TYPE_OBJECT_TEMPERATURE_REACHED 18
+#define FID_GET_AMBIENT_TEMPERATURE 1
+#define FID_GET_OBJECT_TEMPERATURE 2
+#define FID_SET_EMISSIVITY 3
+#define FID_GET_EMISSIVITY 4
+#define FID_SET_AMBIENT_TEMPERATURE_CALLBACK_PERIOD 5
+#define FID_GET_AMBIENT_TEMPERATURE_CALLBACK_PERIOD 6
+#define FID_SET_OBJECT_TEMPERATURE_CALLBACK_PERIOD 7
+#define FID_GET_OBJECT_TEMPERATURE_CALLBACK_PERIOD 8
+#define FID_SET_AMBIENT_TEMPERATURE_CALLBACK_THRESHOLD 9
+#define FID_GET_AMBIENT_TEMPERATURE_CALLBACK_THRESHOLD 10
+#define FID_SET_OBJECT_TEMPERATURE_CALLBACK_THRESHOLD 11
+#define FID_GET_OBJECT_TEMPERATURE_CALLBACK_THRESHOLD 12
+#define FID_SET_DEBOUNCE_PERIOD 13
+#define FID_GET_DEBOUNCE_PERIOD 14
+#define FID_AMBIENT_TEMPERATURE 15
+#define FID_OBJECT_TEMPERATURE 16
+#define FID_AMBIENT_TEMPERATURE_REACHED 17
+#define FID_OBJECT_TEMPERATURE_REACHED 18
+
+#define FID_LAST 18
 
 typedef struct {
 	int16_t data;
@@ -78,48 +81,40 @@ typedef struct {
 } Emissivity;
 
 typedef struct {
-	uint8_t stack_id;
-	uint8_t type;
-	uint16_t length;
+	MessageHeader header;
 } __attribute__((__packed__)) StandardMessage;
 
 typedef struct {
-	uint8_t stack_id;
-	uint8_t type;
-	uint16_t length;
+	MessageHeader header;
 	uint16_t emissivity;
 } __attribute__((__packed__)) SetEmissivity;
 
 typedef struct {
-	uint8_t stack_id;
-	uint8_t type;
-	uint16_t length;
+	MessageHeader header;
 } __attribute__((__packed__)) GetEmissivity;
 
 typedef struct {
-	uint8_t stack_id;
-	uint8_t type;
-	uint16_t length;
+	MessageHeader header;
 	uint16_t emissivity;
 } __attribute__((__packed__)) GetEmissivityReturn;
 
-void set_emissivity(uint8_t com, SetEmissivity *data);
-void get_emissivity(uint8_t com, GetEmissivity *data);
+void set_emissivity(const ComType com, const SetEmissivity *data);
+void get_emissivity(const ComType com, const GetEmissivity *data);
 
-void invocation(uint8_t com, uint8_t *data);
+void invocation(const ComType com, const uint8_t *data);
 void constructor(void);
 void destructor(void);
 void tick(uint8_t tick_type);
 
-void ir_temp_set_emissivity_correction(uint16_t value, uint8_t part);
+void ir_temp_set_emissivity_correction(const uint16_t value, const uint8_t part);
 void ir_temp_get_emissivity_correction(void);
-uint8_t ir_temp_calculate_pec(uint8_t *data, uint8_t length);
-int16_t ir_temp_to_celsius(int16_t temp);
+uint8_t ir_temp_calculate_pec(const uint8_t *data, const uint8_t length);
+int16_t ir_temp_to_celsius(const int16_t temp);
 void ir_temp_to_pwm(void);
 void ir_temp_to_i2c(void);
 void ir_temp_callback_set_emissivity(void);
 void ir_temp_callback_get_emissivity(void);
 void ir_temp_callback_value(void);
-void ir_temp_write(const uint8_t internal_address, uint16_t value);
+void ir_temp_write(const uint8_t internal_address, const uint16_t value);
 bool ir_temp_next_value(void);
 #endif
