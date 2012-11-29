@@ -15,11 +15,11 @@ def cb_reached(temperature):
     print('The water is boiling!')
 
 if __name__ == "__main__":
-    ipcon = IPConnection(HOST, PORT) # Create IP connection to brickd
+    ipcon = IPConnection() # Create IP connection
+    tir = TemperatureIR(UID, ipcon) # Create device object
 
-    tir = TemperatureIR(UID) # Create device object
-    ipcon.add_device(tir) # Add device to IP connection
-    # Don't use device before it is added to a connection
+    ipcon.connect(HOST, PORT) # Connect to brickd
+    # Don't use device before ipcon is connected
 
     # Set emissivity to 0.98 (emissivity of water)
     tir.set_emissivity(int(0xFFFF*0.98))
@@ -34,4 +34,3 @@ if __name__ == "__main__":
     tir.set_object_temperature_callback_threshold('>', 100*10, 0)
 
     raw_input('Press key to exit\n') # Use input() in Python 3
-    ipcon.destroy()
