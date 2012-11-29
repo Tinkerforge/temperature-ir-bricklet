@@ -10,29 +10,26 @@
 
 // Callback for object temperature greater than 100 °C
 // (parameter has unit °C/10)
-void cb_reached(uint16_t temperature) {
+void cb_reached(uint16_t temperature, void *user_data) {
 	printf("The surface has a temperature of %f °C\n", temperature/10.0);
 	printf("The water is boiling!\n");
 }
 
 int main() {
-	// Create IP connection to brickd
+	// Create IP connection
 	IPConnection ipcon;
-	if(ipcon_create(&ipcon, HOST, PORT) < 0) {
-		fprintf(stderr, "Could not create connection\n");
-		exit(1);
-	}
+	ipcon_create(&ipcon);
 
 	// Create device object
 	TemperatureIR tir;
-	temperature_ir_create(&tir, UID); 
+	temperature_ir_create(&tir, UID, &ipcon); 
 
-	// Add device to IP connection
-	if(ipcon_add_device(&ipcon, &tir) < 0) {
-		fprintf(stderr, "Could not connect to Bricklet\n");
+	// Connect to brickd
+	if(ipcon_connect(&ipcon, HOST, PORT) < 0) {
+		fprintf(stderr, "Could not connect\n");
 		exit(1);
 	}
-	// Don't use device before it is added to a connection
+	// Don't use device before ipcon is connected
 
 	// Set emissivity to 0.98 (emissivity of water)
 	temperature_ir_set_emissivity(&tir, (int)0xFFFF*0.98);
@@ -43,7 +40,8 @@ int main() {
 	// Register threshold reached callback to function cb_reached
 	temperature_ir_register_callback(&tir,
 	                                 TEMPERATURE_IR_CALLBACK_OBJECT_TEMPERATURE_REACHED,
-	                                 cb_reached);
+	                                 cb_reached,
+									 NULL);
 
 	// Configure threshold for "greater than 100 °C" (unit is °C/10)
 	temperature_ir_set_object_temperature_callback_threshold(&tir,

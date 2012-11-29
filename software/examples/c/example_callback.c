@@ -10,32 +10,29 @@
 
 // Callback functions for object/ambient temperature callbacks
 // (parameters have unit °C/10)
-void cb_object(uint16_t temperature) {
+void cb_object(uint16_t temperature, void *user_data) {
 	printf("Object Temperature: %f °C.\n", temperature/10.0);
 }
 
-void cb_ambient(uint16_t temperature) {
+void cb_ambient(uint16_t temperature, void *user_data) {
 	printf("Ambient Temperature: %f °C.\n", temperature/10.0);
 }
 
 int main() {
-	// Create IP connection to brickd
+	// Create IP connection
 	IPConnection ipcon;
-	if(ipcon_create(&ipcon, HOST, PORT) < 0) {
-		fprintf(stderr, "Could not create connection\n");
-		exit(1);
-	}
+	ipcon_create(&ipcon);
 
 	// Create device object
 	TemperatureIR tir;
-	temperature_ir_create(&tir, UID); 
+	temperature_ir_create(&tir, UID, &ipcon); 
 
-	// Add device to IP connection
-	if(ipcon_add_device(&ipcon, &tir) < 0) {
-		fprintf(stderr, "Could not connect to Bricklet\n");
+	// Connect to brickd
+	if(ipcon_connect(&ipcon, HOST, PORT) < 0) {
+		fprintf(stderr, "Could not connect\n");
 		exit(1);
 	}
-	// Don't use device before it is added to a connection
+	// Don't use device before ipcon is connected
 
 	// Set Period for temperature callbacks to 1s (1000ms)
 	// Note: The callbacks are only called every second if the 
@@ -46,12 +43,14 @@ int main() {
 	// Register object temperature callback to function cb_object
 	temperature_ir_register_callback(&tir,
 	                                 TEMPERATURE_IR_CALLBACK_OBJECT_TEMPERATURE, 
-	                                 cb_object);
+	                                 cb_object,
+									 NULL);
 
 	// Register ambient temperature callback to function cb_ambient
 	temperature_ir_register_callback(&tir,
 	                                 TEMPERATURE_IR_CALLBACK_AMBIENT_TEMPERATURE, 
-	                                 cb_ambient);
+	                                 cb_ambient,
+									 NULL);
 
 	printf("Press key to exit\n");
 	getchar();
