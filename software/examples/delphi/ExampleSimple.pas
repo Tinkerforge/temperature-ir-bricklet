@@ -26,15 +26,15 @@ var
 procedure TExample.Execute;
 var obj, amb: smallint;
 begin
-  { Create IP connection to brickd }
-  ipcon := TIPConnection.Create(HOST, PORT);
+  { Create IP connection }
+  ipcon := TIPConnection.Create();
 
   { Create device object }
-  tir := TBrickletTemperatureIR.Create(UID);
+  tir := TBrickletTemperatureIR.Create(UID, ipcon);
 
-  { Add device to IP connection }
-  ipcon.AddDevice(tir);
-  { Don't use device before it is added to a connection }
+  { Connect to brickd }
+  ipcon.Connect(HOST, PORT);
+  { Don't use device before ipcon is connected }
 
   { Get current ambient and object temperatures (unit is °C/10) }
   obj := tir.GetObjectTemperature;
@@ -45,7 +45,6 @@ begin
 
   WriteLn('Press key to exit');
   ReadLn;
-  ipcon.Destroy;
 end;
 
 begin

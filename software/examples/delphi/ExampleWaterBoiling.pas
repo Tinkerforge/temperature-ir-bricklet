@@ -12,7 +12,7 @@ type
     ipcon: TIPConnection;
     tir: TBrickletTemperatureIR;
   public
-    procedure ReachedCB(const temperature: smallint);
+    procedure ReachedCB(sender: TObject; const temperature: smallint);
     procedure Execute;
   end;
 
@@ -26,7 +26,7 @@ var
 
 { Callback for object temperature greater than 100 °C
   (parameter has unit °C/10) }
-procedure TExample.ReachedCB(const temperature: smallint);
+procedure TExample.ReachedCB(sender: TObject; const temperature: smallint);
 begin
   WriteLn(Format('The surface has a temperature of %f °C', [temperature/10.0]));
   WriteLn('The water is boiling!');
@@ -34,15 +34,15 @@ end;
 
 procedure TExample.Execute;
 begin
-  { Create IP connection to brickd }
-  ipcon := TIPConnection.Create(HOST, PORT);
+  { Create IP connection }
+  ipcon := TIPConnection.Create();
 
   { Create device object }
-  tir := TBrickletTemperatureIR.Create(UID);
+  tir := TBrickletTemperatureIR.Create(UID, ipcon);
 
-  { Add device to IP connection }
-  ipcon.AddDevice(tir);
-  { Don't use device before it is added to a connection }
+  { Connect to brickd }
+  ipcon.Connect(HOST, PORT);
+  { Don't use device before ipcon is connected }
 
   { Set emissivity to 0.98 (emissivity of water) }
   tir.SetEmissivity(Floor($FFFF*0.98));
@@ -58,7 +58,6 @@ begin
 
   WriteLn('Press key to exit');
   ReadLn;
-  ipcon.Destroy;
 end;
 
 begin

@@ -12,8 +12,8 @@ type
     ipcon: TIPConnection;
     tir: TBrickletTemperatureIR;
   public
-    procedure ObjectTemperatureCB(const temperature: smallint);
-    procedure AmbientTemperatureCB(const temperature: smallint);
+    procedure ObjectTemperatureCB(sender: TObject; const temperature: smallint);
+    procedure AmbientTemperatureCB(sender: TObject; const temperature: smallint);
     procedure Execute;
   end;
 
@@ -27,27 +27,27 @@ var
 
 { Callback functions for object/ambient temperature callbacks
   (parameters have unit °C/10) }
-procedure TExample.ObjectTemperatureCB(const temperature: smallint);
+procedure TExample.ObjectTemperatureCB(sender: TObject; const temperature: smallint);
 begin
   WriteLn(Format('Object Temperature: %f °C', [temperature/10.0]));
 end;
 
-procedure TExample.AmbientTemperatureCB(const temperature: smallint);
+procedure TExample.AmbientTemperatureCB(sender: TObject; const temperature: smallint);
 begin
   WriteLn(Format('Ambient Temperature: %f °C', [temperature/10.0]));
 end;
 
 procedure TExample.Execute;
 begin
-  { Create IP connection to brickd }
-  ipcon := TIPConnection.Create(HOST, PORT);
+  { Create IP connection }
+  ipcon := TIPConnection.Create();
 
   { Create device object }
-  tir := TBrickletTemperatureIR.Create(UID);
+  tir := TBrickletTemperatureIR.Create(UID, ipcon);
 
-  { Add device to IP connection }
-  ipcon.AddDevice(tir);
-  { Don't use device before it is added to a connection }
+  { Connect to brickd }
+  ipcon.Connect(HOST, PORT);
+  { Don't use device before ipcon is connected }
 
   { Set Period for temperature callbacks to 1s (1000ms)
     Note: The callbacks are only called every second if the 
@@ -63,7 +63,6 @@ begin
 
   WriteLn('Press key to exit');
   ReadLn;
-  ipcon.Destroy;
 end;
 
 begin
