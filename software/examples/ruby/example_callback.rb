@@ -10,10 +10,11 @@ HOST = 'localhost'
 PORT = 4223
 UID = '8Xb' # Change to your UID
 
-ipcon = IPConnection.new HOST, PORT # Create IP connection to brickd
-tir = BrickletTemperatureIR.new UID # Create device object
-ipcon.add_device tir # Add device to IP connection
-# Don't use device before it is added to a connection
+ipcon = IPConnection.new # Create IP connection
+tir = BrickletTemperatureIR.new UID, ipcon # Create device object
+
+ipcon.connect HOST, PORT # Connect to brickd
+# Don't use device before ipcon is connected
 
 # Set Period for temperature callbacks to 1s (1000ms)
 # Note: The callbacks are only called every second if the 
@@ -33,4 +34,3 @@ end
 
 puts 'Press key to exit'
 $stdin.gets
-ipcon.destroy
