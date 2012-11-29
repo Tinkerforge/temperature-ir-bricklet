@@ -18,11 +18,11 @@ function cb_reached($temperature)
     echo "The water is boiling!\n";
 }
 
-$ipcon = new IPConnection($host, $port); // Create IP connection to brickd
-$tir = new BrickletTemperatureIR($uid); // Create device object
+$ipcon = new IPConnection(); // Create IP connection
+$tir = new BrickletTemperatureIR($uid, $ipcon); // Create device object
 
-$ipcon->addDevice($tir); // Add device to IP connection
-// Don't use device before it is added to a connection
+$ipcon->connect($host, $port); // Connect to brickd
+// Don't use device before ipcon is connected
 
 // Set emissivity to 0.98 (emissivity of water)
 $tir->setEmissivity((int)(0xFFFF*0.98));

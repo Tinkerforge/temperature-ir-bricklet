@@ -22,11 +22,11 @@ function cb_ambient($temperature)
     echo "Ambient Temperature: " . $temperature / 10.0 . " °C\n";
 }
 
-$ipcon = new IPConnection($host, $port); // Create IP connection to brickd
-$tir = new BrickletTemperatureIR($uid); // Create device object
+$ipcon = new IPConnection(); // Create IP connection
+$tir = new BrickletTemperatureIR($uid, $ipcon); // Create device object
 
-$ipcon->addDevice($tir); // Add device to IP connection
-// Don't use device before it is added to a connection
+$ipcon->connect($host, $port); // Connect to brickd
+// Don't use device before ipcon is connected
 
 // Set Period for temperature callbacks to 1s (1000ms)
 // Note: The callbacks are only called every second if the 
