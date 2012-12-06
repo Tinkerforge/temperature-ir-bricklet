@@ -11,10 +11,14 @@
 // Callback functions for object/ambient temperature callbacks
 // (parameters have unit °C/10)
 void cb_object(uint16_t temperature, void *user_data) {
+	(void)user_data; // avoid unused parameter warning
+
 	printf("Object Temperature: %f °C.\n", temperature/10.0);
 }
 
 void cb_ambient(uint16_t temperature, void *user_data) {
+	(void)user_data; // avoid unused parameter warning
+
 	printf("Ambient Temperature: %f °C.\n", temperature/10.0);
 }
 
@@ -44,13 +48,13 @@ int main() {
 	temperature_ir_register_callback(&tir,
 	                                 TEMPERATURE_IR_CALLBACK_OBJECT_TEMPERATURE, 
 	                                 cb_object,
-									 NULL);
+	                                 NULL);
 
 	// Register ambient temperature callback to function cb_ambient
 	temperature_ir_register_callback(&tir,
 	                                 TEMPERATURE_IR_CALLBACK_AMBIENT_TEMPERATURE, 
 	                                 cb_ambient,
-									 NULL);
+	                                 NULL);
 
 	printf("Press key to exit\n");
 	getchar();

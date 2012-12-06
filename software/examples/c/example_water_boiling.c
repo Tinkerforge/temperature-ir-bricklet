@@ -11,6 +11,8 @@
 // Callback for object temperature greater than 100 °C
 // (parameter has unit °C/10)
 void cb_reached(uint16_t temperature, void *user_data) {
+	(void)user_data; // avoid unused parameter warning
+
 	printf("The surface has a temperature of %f °C\n", temperature/10.0);
 	printf("The water is boiling!\n");
 }
@@ -41,7 +43,7 @@ int main() {
 	temperature_ir_register_callback(&tir,
 	                                 TEMPERATURE_IR_CALLBACK_OBJECT_TEMPERATURE_REACHED,
 	                                 cb_reached,
-									 NULL);
+	                                 NULL);
 
 	// Configure threshold for "greater than 100 °C" (unit is °C/10)
 	temperature_ir_set_object_temperature_callback_threshold(&tir,
