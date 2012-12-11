@@ -47,13 +47,13 @@ int main() {
 	// Register object temperature callback to function cb_object
 	temperature_ir_register_callback(&tir,
 	                                 TEMPERATURE_IR_CALLBACK_OBJECT_TEMPERATURE, 
-	                                 cb_object,
+	                                 (void *)cb_object,
 	                                 NULL);
 
 	// Register ambient temperature callback to function cb_ambient
 	temperature_ir_register_callback(&tir,
 	                                 TEMPERATURE_IR_CALLBACK_AMBIENT_TEMPERATURE, 
-	                                 cb_ambient,
+	                                 (void *)cb_ambient,
 	                                 NULL);
 
 	printf("Press key to exit\n");

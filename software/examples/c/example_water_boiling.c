@@ -42,7 +42,7 @@ int main() {
 	// Register threshold reached callback to function cb_reached
 	temperature_ir_register_callback(&tir,
 	                                 TEMPERATURE_IR_CALLBACK_OBJECT_TEMPERATURE_REACHED,
-	                                 cb_reached,
+	                                 (void *)cb_reached,
 	                                 NULL);
 
 	// Configure threshold for "greater than 100 °C" (unit is °C/10)
