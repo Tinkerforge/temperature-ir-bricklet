@@ -31,7 +31,7 @@ $tir->setEmissivity((int)(0xFFFF*0.98));
 $tir->setDebouncePeriod(10000);
 
 // Register threshold reached callback to function cb_reached
-$tir->registerCallback(tir.CALLBACK_OBJECT_TEMPERATURE_REACHED, 'cb_reached');
+$tir->registerCallback(BrickletTemperatureIR::CALLBACK_OBJECT_TEMPERATURE_REACHED, 'cb_reached');
 
 // Configure threshold for "greater than 100 °C" (unit is °C/10)
 $tir->setObjectTemperatureCallbackThreshold('>', 100*10, 0);
