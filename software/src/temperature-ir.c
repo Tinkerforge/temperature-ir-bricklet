@@ -163,7 +163,8 @@ void ir_temp_callback_value(void) {
 	PIN_I2C_SWITCH.type = PIO_OUTPUT_0;
 	BA->PIO_Configure(&PIN_I2C_SWITCH, 1);
 
-	BA->mutex_give(*BA->mutex_twi_bricklet);
+	int32_t higher_prio_task_woken = 0;
+	BA->mutex_give_isr(*BA->mutex_twi_bricklet, &higher_prio_task_woken);
 
 	if(BC->next_address == I2C_INTERNAL_ADDRESS_TA) {
 		BC->value[0] = ir_temp_to_celsius(BC->temperature.data);
@@ -172,6 +173,8 @@ void ir_temp_callback_value(void) {
 		BC->value[1] = ir_temp_to_celsius(BC->temperature.data);
 		BC->next_address = I2C_INTERNAL_ADDRESS_TA;
 	}
+
+	BA->yield_from_isr(higher_prio_task_woken);
 }
 
 void ir_temp_callback_set_emissivity(void) {
