@@ -7,7 +7,7 @@ class Example
 	private static string UID = "ABC"; // Change to your UID
 
 	// Callback for object temperature greater than 100 °C (parameter has unit °C/10)
-	static void ReachedCB(object sender, short temperature)
+	static void ReachedCB(BrickletTemperatureIR sender, short temperature)
 	{
 		System.Console.WriteLine("The surface has a temperature of " + 
 		                         temperature/10.0 + 

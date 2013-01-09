@@ -12,8 +12,8 @@ type
     ipcon: TIPConnection;
     tir: TBrickletTemperatureIR;
   public
-    procedure ObjectTemperatureCB(sender: TObject; const temperature: smallint);
-    procedure AmbientTemperatureCB(sender: TObject; const temperature: smallint);
+    procedure ObjectTemperatureCB(sender: TBrickletTemperatureIR; const temperature: smallint);
+    procedure AmbientTemperatureCB(sender: TBrickletTemperatureIR; const temperature: smallint);
     procedure Execute;
   end;
 
@@ -27,12 +27,12 @@ var
 
 { Callback functions for object/ambient temperature callbacks
   (parameters have unit °C/10) }
-procedure TExample.ObjectTemperatureCB(sender: TObject; const temperature: smallint);
+procedure TExample.ObjectTemperatureCB(sender: TBrickletTemperatureIR; const temperature: smallint);
 begin
   WriteLn(Format('Object Temperature: %f °C', [temperature/10.0]));
 end;
 
-procedure TExample.AmbientTemperatureCB(sender: TObject; const temperature: smallint);
+procedure TExample.AmbientTemperatureCB(sender: TBrickletTemperatureIR; const temperature: smallint);
 begin
   WriteLn(Format('Ambient Temperature: %f °C', [temperature/10.0]));
 end;

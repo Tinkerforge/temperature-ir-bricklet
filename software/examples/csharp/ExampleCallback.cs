@@ -8,12 +8,12 @@ class Example
 
 	// Callback functions for object/ambient temperature callback 
 	// (parameters have unit °C/10)
-	static void ObjectCB(object sender, short temperature)
+	static void ObjectCB(BrickletTemperatureIR sender, short temperature)
 	{
 		System.Console.WriteLine("Object Temperature: " + temperature/10.0 + " °C");
 	}
 
-	static void AmbientCB(object sender, short temperature)
+	static void AmbientCB(BrickletTemperatureIR sender, short temperature)
 	{
 		System.Console.WriteLine("Ambient Temperature: " + temperature/10.0 + " °C");
 	}

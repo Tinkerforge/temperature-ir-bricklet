@@ -12,7 +12,7 @@ type
     ipcon: TIPConnection;
     tir: TBrickletTemperatureIR;
   public
-    procedure ReachedCB(sender: TObject; const temperature: smallint);
+    procedure ReachedCB(sender: TBrickletTemperatureIR; const temperature: smallint);
     procedure Execute;
   end;
 
@@ -26,7 +26,7 @@ var
 
 { Callback for object temperature greater than 100 °C
   (parameter has unit °C/10) }
-procedure TExample.ReachedCB(sender: TObject; const temperature: smallint);
+procedure TExample.ReachedCB(sender: TBrickletTemperatureIR; const temperature: smallint);
 begin
   WriteLn(Format('The surface has a temperature of %f °C', [temperature/10.0]));
   WriteLn('The water is boiling!');
