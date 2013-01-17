@@ -26,7 +26,7 @@ public class ExampleWaterBoiling {
 
 		// Add and implement temperature reached listener 
 		// (called if object temperature is greater than 100 °C)
-		tir.addListener(new BrickletTemperatureIR.ObjectTemperatureReachedListener() {
+		tir.addObjectTemperatureReachedListener(new BrickletTemperatureIR.ObjectTemperatureReachedListener() {
 			public void objectTemperatureReached(short temperature) {
 				System.out.println("The surface has a temperature of " + 
 				                   temperature/10.0 + " °C.");

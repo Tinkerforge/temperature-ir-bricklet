@@ -23,12 +23,12 @@ public class ExampleCallback {
 
 		// Add and implement object/ambient temperature listener 
 		// (called if temperature changes)
-		tir.addListener(new BrickletTemperatureIR.ObjectTemperatureListener() {
+		tir.addObjectTemperatureListener(new BrickletTemperatureIR.ObjectTemperatureListener() {
 			public void objectTemperature(short temperature) {
 				System.out.println("Object Temperature: " + temperature/10.0 + " °C");
 			}
 		});
-		tir.addListener(new BrickletTemperatureIR.AmbientTemperatureListener() {
+		tir.addAmbientTemperatureListener(new BrickletTemperatureIR.AmbientTemperatureListener() {
 			public void ambientTemperature(short temperature) {
 				System.out.println("Ambient Temperature: " + temperature/10.0 + " °C");
 			}
