@@ -16,8 +16,8 @@ public class ExampleSimple {
 		// Don't use device before ipcon is connected
 
 		// Get current object and ambient temperature (unit is °C/10)
-		short obj = tir.getObjectTemperature(); // Can throw IPConnection.TimeoutException
-		short amb = tir.getAmbientTemperature(); // Can throw IPConnection.TimeoutException
+		short obj = tir.getObjectTemperature(); // Can throw com.tinkerforge.TimeoutException
+		short amb = tir.getAmbientTemperature(); // Can throw com.tinkerforge.TimeoutException
 
 		System.out.println("Object Temperature: " + obj/10.0 + " °C");
 		System.out.println("Ambient Temperature: " + amb/10.0 + " °C");
