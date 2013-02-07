@@ -34,3 +34,4 @@ if __name__ == "__main__":
     tir.set_object_temperature_callback_threshold('>', 100*10, 0)
 
     raw_input('Press key to exit\n') # Use input() in Python 3
+    ipcon.disconnect()

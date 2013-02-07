@@ -23,5 +23,6 @@ public class ExampleSimple {
 		System.out.println("Ambient Temperature: " + amb/10.0 + " °C");
 
 		System.console().readLine("Press key to exit\n");
+		ipcon.disconnect();
 	}
 }

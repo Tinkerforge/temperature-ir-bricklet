@@ -25,5 +25,6 @@ echo "Ambient Temperature: $amb °C\n";
 
 echo "Press key to exit\n";
 fgetc(fopen('php://stdin', 'r'));
+$ipcon->disconnect();
 
 ?>

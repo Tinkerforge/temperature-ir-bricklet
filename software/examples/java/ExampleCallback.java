@@ -35,5 +35,6 @@ public class ExampleCallback {
 		});
 
 		System.console().readLine("Press key to exit\n");
+		ipcon.disconnect();
 	}
 }

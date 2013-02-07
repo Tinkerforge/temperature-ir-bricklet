@@ -25,3 +25,4 @@ puts "Ambient Temperature: #{amb} °C"
 
 puts 'Press key to exit'
 $stdin.gets
+ipcon.disconnect

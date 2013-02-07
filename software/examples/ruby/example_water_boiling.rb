@@ -17,7 +17,7 @@ ipcon.connect HOST, PORT # Connect to brickd
 # Don't use device before ipcon is connected
 
 # Set emissivity to 0.98 (emissivity of water)
-tir.set_emissivity((0xFFFF*0.98).to_i)
+tir.set_emissivity((0xFFFF * 0.98).to_i)
 
 # Get threshold callbacks with a debounce time of 10 seconds (10000ms)
 tir.set_debounce_period 10000
@@ -33,3 +33,4 @@ tir.set_object_temperature_callback_threshold '>', 100*10, 0
 
 puts 'Press key to exit'
 $stdin.gets
+ipcon.disconnect

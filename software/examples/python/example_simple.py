@@ -23,3 +23,4 @@ if __name__ == "__main__":
     print('Ambient Temperature: ' + str(amb) + ' °C')
 
     raw_input('Press key to exit\n') # Use input() in Python 3
+    ipcon.disconnect()

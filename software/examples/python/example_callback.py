@@ -35,3 +35,4 @@ if __name__ == "__main__":
     tir.register_callback(tir.CALLBACK_AMBIENT_TEMPERATURE, cb_ambient)
 
     raw_input('Press key to exit\n') # Use input() in Python 3
+    ipcon.disconnect()
