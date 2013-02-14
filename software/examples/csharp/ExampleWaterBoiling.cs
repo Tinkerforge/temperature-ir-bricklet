@@ -26,8 +26,8 @@ class Example
 		// Set emissivity to 0.98 (emissivity of water)
 		temp.SetEmissivity((ushort)(0xFFFF*0.98));
 
-		// Get threshold callbacks with a debounce time of 1 seconds (1000ms)
-		temp.SetDebouncePeriod(1000);
+		// Get threshold callbacks with a debounce time of 10 seconds (10000ms)
+		temp.SetDebouncePeriod(10000);
 
 		// Register threshold reached callback to function ReachedCB
 		temp.ObjectTemperatureReached += ReachedCB;
