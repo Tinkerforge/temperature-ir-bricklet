@@ -10,8 +10,7 @@ class Example
 	static void ReachedCB(BrickletTemperatureIR sender, short temperature)
 	{
 		System.Console.WriteLine("The surface has a temperature of " + 
-		                         temperature/10.0 + 
-		                         " °C");
+		                         temperature/10.0 + " °C");
 		System.Console.WriteLine("The water is boiling!");
 	}
 
@@ -24,7 +23,7 @@ class Example
 		// Don't use device before ipcon is connected
 
 		// Set emissivity to 0.98 (emissivity of water)
-		temp.SetEmissivity((ushort)(0xFFFF*0.98));
+		temp.SetEmissivity((int)(0xFFFF*0.98));
 
 		// Get threshold callbacks with a debounce time of 10 seconds (10000ms)
 		temp.SetDebouncePeriod(10000);
