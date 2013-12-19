@@ -3,3 +3,4 @@
 1.1.1: Add support for more then one Temp IR at once
 2.0.0: Support for protocol 2.0
 2.0.1: Don't send threshold callback twice
+2.0.2: Fix wrong length for GetDebounce packet (through brickletlib)
