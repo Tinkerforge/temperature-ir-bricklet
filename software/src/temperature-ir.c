@@ -72,6 +72,8 @@ void invocation(const ComType com, const uint8_t *data) {
 }
 
 void constructor(void) {
+	_Static_assert(sizeof(BrickContext) <= BRICKLET_CONTEXT_MAX_SIZE, "BrickContext too big");
+
 	BC->value_tick = 0;
 	BC->emissivity_counter = 0;
 	BC->startup_counter = 255; // MLX90614 needs 20ms for startup
