@@ -6,9 +6,9 @@ require_once('Tinkerforge/BrickletTemperatureIR.php');
 use Tinkerforge\IPConnection;
 use Tinkerforge\BrickletTemperatureIR;
 
-$host = 'localhost';
-$port = 4223;
-$uid = 'XYZ'; // Change to your UID
+const HOST = 'localhost';
+const PORT = 4223;
+const UID = 'XYZ'; // Change to your UID
 
 # Callback for object temperature greater than 100 °C
 # (parameter has unit °C/10)
@@ -19,9 +19,9 @@ function cb_reached($temperature)
 }
 
 $ipcon = new IPConnection(); // Create IP connection
-$tir = new BrickletTemperatureIR($uid, $ipcon); // Create device object
+$tir = new BrickletTemperatureIR(UID, $ipcon); // Create device object
 
-$ipcon->connect($host, $port); // Connect to brickd
+$ipcon->connect(HOST, PORT); // Connect to brickd
 // Don't use device before ipcon is connected
 
 // Set emissivity to 0.98 (emissivity of water)
