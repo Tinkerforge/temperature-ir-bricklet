@@ -20,8 +20,8 @@ sub cb_ambient
     print "\nAmbient Temperature: ".$temperature/10.0." °C\n";
 }
 
-my $ipcon = IPConnection->new(); # Create IP connection
-my $tir = BrickletTemperatureIR->new(&UID, $ipcon); # Create device object
+my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
+my $tir = Tinkerforge::BrickletTemperatureIR->new(&UID, $ipcon); # Create device object
 
 $ipcon->connect(&HOST, &PORT); # Connect to brickd
 # Don't use device before ipcon is connected
