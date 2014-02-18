@@ -1,12 +1,11 @@
-var IPConnection = require('Tinkerforge/IPConnection');
-var BrickletTemperatureIR = require('Tinkerforge/BrickletTemperatureIR');
+var Tinkerforge = require('tinkerforge');
 
 var HOST = 'localhost';
 var PORT = 4223;
 var UID = 'kqJ';// Change to your UID
 
-var ipcon = new IPConnection();// Create IP connection
-var tir = new BrickletTemperatureIR(UID, ipcon);// Create device object
+var ipcon = new Tinkerforge.IPConnection();// Create IP connection
+var tir = new Tinkerforge.BrickletTemperatureIR(UID, ipcon);// Create device object
 
 ipcon.connect(HOST, PORT,
     function(error) {
@@ -15,7 +14,7 @@ ipcon.connect(HOST, PORT,
 );// Connect to brickd
 
 // Don't use device before ipcon is connected
-ipcon.on(IPConnection.CALLBACK_CONNECTED,
+ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function(connectReason) {
         //Get current object and ambient temperatures (unit is °C/10)
         tir.getObjectTemperature(

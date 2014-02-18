@@ -1,12 +1,11 @@
-var IPConnection = require('Tinkerforge/IPConnection');
-var BrickletTemperatureIR = require('Tinkerforge/BrickletTemperatureIR');
+var Tinkerforge = require('tinkerforge');
 
 var HOST = 'localhost';
 var PORT = 4223;
 var UID = 'kqJ';// Change to your UID
 
-var ipcon = new IPConnection();// Create IP connection
-var tir = new BrickletTemperatureIR(UID, ipcon);// Create device object
+var ipcon = new Tinkerforge.IPConnection();// Create IP connection
+var tir = new Tinkerforge.BrickletTemperatureIR(UID, ipcon);// Create device object
 
 ipcon.connect(HOST, PORT,
     function(error) {
@@ -15,7 +14,7 @@ ipcon.connect(HOST, PORT,
 );// Connect to brickd
 
 // Don't use device before ipcon is connected
-ipcon.on(IPConnection.CALLBACK_CONNECTED,
+ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function(connectReason) {
         // Set emissivity to 0.98 (emissivity of water)
         tir.setEmissivity(parseInt(0xFFFF*0.98));
@@ -27,7 +26,7 @@ ipcon.on(IPConnection.CALLBACK_CONNECTED,
 );
 
 //Register threshold reached callback
-tir.on(BrickletTemperatureIR.CALLBACK_OBJECT_TEMPERATURE_REACHED,
+tir.on(Tinkerforge.BrickletTemperatureIR.CALLBACK_OBJECT_TEMPERATURE_REACHED,
     //Callback for object temperature greater than 100 °C
     //(parameter has unit °C/10)
     function(temp) {
