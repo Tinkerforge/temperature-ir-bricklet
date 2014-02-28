@@ -2,18 +2,18 @@ var Tinkerforge = require('tinkerforge');
 
 var HOST = 'localhost';
 var PORT = 4223;
-var UID = 'kqJ';// Change to your UID
+var UID = 'kqJ'; // Change to your UID
 
-var ipcon = new Tinkerforge.IPConnection();// Create IP connection
-var tir = new Tinkerforge.BrickletTemperatureIR(UID, ipcon);// Create device object
+var ipcon = new Tinkerforge.IPConnection(); // Create IP connection
+var tir = new Tinkerforge.BrickletTemperatureIR(UID, ipcon); // Create device object
 
 ipcon.connect(HOST, PORT,
     function(error) {
         console.log('Error: '+error);        
     }
-);// Connect to brickd
-
+); // Connect to brickd
 // Don't use device before ipcon is connected
+
 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function(connectReason) {
         // Set emissivity to 0.98 (emissivity of water)
@@ -25,10 +25,10 @@ ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     }
 );
 
-//Register threshold reached callback
+// Register threshold reached callback
 tir.on(Tinkerforge.BrickletTemperatureIR.CALLBACK_OBJECT_TEMPERATURE_REACHED,
-    //Callback for object temperature greater than 100 °C
-    //(parameter has unit °C/10)
+    // Callback for object temperature greater than 100 °C
+    // (parameter has unit °C/10)
     function(temp) {
         console.log('The surface has a temperature of ' + temp/10.0 + ' °C.');
         console.log('The water is boiling!');
@@ -43,4 +43,3 @@ process.stdin.on('data',
         process.exit(0);
     }
 );
-
