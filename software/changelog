@@ -4,3 +4,4 @@
 2.0.0: Support for protocol 2.0
 2.0.1: Don't send threshold callback twice
 2.0.2: Fix wrong length for GetDebounce packet (through brickletlib)
+2.0.3: Go back to synchronous I2C communication because of rare problems with freeRTOS

@@ -112,9 +112,9 @@ uint8_t ir_temp_calculate_pec(const uint8_t *data, const uint8_t length);
 int16_t ir_temp_to_celsius(const int16_t temp);
 void ir_temp_to_pwm(void);
 void ir_temp_to_i2c(void);
-void ir_temp_callback_set_emissivity(void);
-void ir_temp_callback_get_emissivity(void);
-void ir_temp_callback_value(void);
+void ir_temp_callback_set_emissivity(Async *a);
+void ir_temp_callback_get_emissivity(Async *a);
+void ir_temp_callback_value(Async *a);
 void ir_temp_write(const uint8_t internal_address, const uint16_t value);
 bool ir_temp_next_value(void);
 #endif

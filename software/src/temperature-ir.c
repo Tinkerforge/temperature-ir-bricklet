@@ -27,6 +27,8 @@
 #include "bricklib/utility/init.h"
 #include "config.h"
 
+//#define USE_ASYNC_TWI
+
 #define SIMPLE_UNIT_AMBIENT_TEMPERATURE 0
 #define SIMPLE_UNIT_OBJECT_TEMPERATURE 1
 
@@ -78,13 +80,15 @@ void constructor(void) {
 	BC->emissivity_counter = 0;
 	BC->startup_counter = 255; // MLX90614 needs 20ms for startup
 	BC->next_address = I2C_INTERNAL_ADDRESS_TA;
+	BC->emissivity_state = IR_TEMP_SET_EMISSIVITY_NONE;
 
+	// Use input pullup to make sure that pins stay high if the analog switch is used
 	PIN_SCL.type = PIO_INPUT;
-	PIN_SCL.attribute = PIO_DEFAULT;
+	PIN_SCL.attribute = PIO_PULLUP;
     BA->PIO_Configure(&PIN_SCL, 1);
 
 	PIN_SDA_PWM.type = PIO_INPUT;
-	PIN_SCL.attribute = PIO_DEFAULT;
+	PIN_SCL.attribute = PIO_PULLUP;
     BA->PIO_Configure(&PIN_SDA_PWM, 1);
 
 	simple_constructor();
@@ -157,7 +161,7 @@ void get_emissivity(const ComType com, const GetEmissivity *data) {
 	                               com);
 }
 
-void ir_temp_callback_value(void) {
+void ir_temp_callback_value(Async *a) {
 	// Switch back to 400khz, turn off MPX90614 i2c and give back mutex
 	BA->twid->pTwi->TWI_CWGR = 0;
 	BA->twid->pTwi->TWI_CWGR = (76 << 8) | 76;
@@ -165,21 +169,38 @@ void ir_temp_callback_value(void) {
 	PIN_I2C_SWITCH.type = PIO_OUTPUT_0;
 	BA->PIO_Configure(&PIN_I2C_SWITCH, 1);
 
+#ifdef USE_ASYNC_TWI
 	int32_t higher_prio_task_woken = 0;
 	BA->mutex_give_isr(*BA->mutex_twi_bricklet, &higher_prio_task_woken);
+#else
+	BA->mutex_give(*BA->mutex_twi_bricklet);
+#endif
 
-	if(BC->next_address == I2C_INTERNAL_ADDRESS_TA) {
-		BC->value[0] = ir_temp_to_celsius(BC->temperature.data);
-		BC->next_address = I2C_INTERNAL_ADDRESS_TOBJ1;
-	} else {
-		BC->value[1] = ir_temp_to_celsius(BC->temperature.data);
-		BC->next_address = I2C_INTERNAL_ADDRESS_TA;
+	// Calculate PEC
+	uint8_t pec_data[5] = {0};
+	pec_data[0] = I2C_ADDRESS << 1;
+	pec_data[1] = BC->next_address;
+	pec_data[2] = (I2C_ADDRESS << 1) | 1;
+	*((uint16_t*)(&pec_data[3])) = BC->temperature.data;
+	uint8_t pec = ir_temp_calculate_pec(pec_data, 5);
+
+	int16_t temperature = ir_temp_to_celsius(BC->temperature.data);
+	if(pec == BC->temperature.crc && temperature > -710 && temperature < 3900) {
+		if(BC->next_address == I2C_INTERNAL_ADDRESS_TA) {
+			BC->value[0] = ir_temp_to_celsius(BC->temperature.data);
+			BC->next_address = I2C_INTERNAL_ADDRESS_TOBJ1;
+		} else {
+			BC->value[1] = ir_temp_to_celsius(BC->temperature.data);
+			BC->next_address = I2C_INTERNAL_ADDRESS_TA;
+		}
 	}
 
+#ifdef USE_ASYNC_TWI
 	BA->yield_from_isr(higher_prio_task_woken);
+#endif
 }
 
-void ir_temp_callback_set_emissivity(void) {
+void ir_temp_callback_set_emissivity(Async *a) {
 	// Switch back to 400khz, turn off MPX90614 i2c and give back mutex
 	BA->twid->pTwi->TWI_CWGR = 0;
 	BA->twid->pTwi->TWI_CWGR = (76 << 8) | 76;
@@ -196,7 +217,7 @@ void ir_temp_callback_set_emissivity(void) {
 	}
 }
 
-void ir_temp_callback_get_emissivity(void) {
+void ir_temp_callback_get_emissivity(Async *a) {
 	// Switch back to 400khz, turn off MPX90614 i2c and give back mutex
 	BA->twid->pTwi->TWI_CWGR = 0;
 	BA->twid->pTwi->TWI_CWGR = (76 << 8) | 76;
@@ -220,8 +241,9 @@ void ir_temp_set_emissivity_correction(const uint16_t value, const uint8_t part)
 	// Switch to 100khz
 	BA->twid->pTwi->TWI_CWGR = 0;
 	BA->twid->pTwi->TWI_CWGR = (1 << 16) | (158<< 8) | 158;
-
+#ifdef USE_ASYNC_TWI
 	BC->async.callback = ir_temp_callback_set_emissivity;
+#endif
 	if(part == IR_TEMP_SET_EMISSIVITY_START) {
 		BC->data[0] = I2C_ADDRESS << 1;
 		BC->data[1] = I2C_INTERNAL_ADDRESS_EMISSIVITY;
@@ -248,7 +270,12 @@ void ir_temp_set_emissivity_correction(const uint16_t value, const uint8_t part)
 				   I2C_INTERNAL_ADDRESS_BYTES,
 				   &BC->data[2],
 				   I2C_DATA_LENGTH,
+#ifdef USE_ASYNC_TWI
 				   &BC->async);
+#else
+	               NULL);
+	ir_temp_callback_set_emissivity(NULL);
+#endif
 }
 
 void ir_temp_get_emissivity_correction(void) {
@@ -256,6 +283,7 @@ void ir_temp_get_emissivity_correction(void) {
 	if(!BA->mutex_take(*BA->mutex_twi_bricklet, 0)) {
 		return;
 	}
+
 
 	// Switch to 100khz
 	BA->twid->pTwi->TWI_CWGR = 0;
@@ -265,14 +293,21 @@ void ir_temp_get_emissivity_correction(void) {
 	PIN_I2C_SWITCH.type = PIO_OUTPUT_1;
 	BA->PIO_Configure(&PIN_I2C_SWITCH, 1);
 
+#ifdef USE_ASYNC_TWI
 	BC->async.callback = ir_temp_callback_get_emissivity;
+#endif
     BA->TWID_Read(BA->twid,
                   I2C_ADDRESS,
                   I2C_INTERNAL_ADDRESS_EMISSIVITY,
                   I2C_INTERNAL_ADDRESS_BYTES,
                   (uint8_t *)&BC->emissivity,
                   I2C_DATA_LENGTH,
-                  &BC->async);
+#ifdef USE_ASYNC_TWI
+				  &BC->async);
+#else
+				  NULL);
+	ir_temp_callback_get_emissivity(NULL);
+#endif
 }
 
 uint8_t ir_temp_calculate_pec(const uint8_t *data, const uint8_t length) {
@@ -304,14 +339,21 @@ bool ir_temp_next_value(void) {
 	PIN_I2C_SWITCH.type = PIO_OUTPUT_1;
 	BA->PIO_Configure(&PIN_I2C_SWITCH, 1);
 
+#ifdef USE_ASYNC_TWI
 	BC->async.callback = ir_temp_callback_value;
+#endif
     BA->TWID_Read(BA->twid,
                   I2C_ADDRESS,
                   BC->next_address,
                   I2C_INTERNAL_ADDRESS_BYTES,
                   (uint8_t *)&BC->temperature,
                   I2C_DATA_LENGTH,
-                  &BC->async);
+#ifdef USE_ASYNC_TWI
+				  &BC->async);
+#else
+				  NULL);
+	ir_temp_callback_value(NULL);
+#endif
 
     return true;
 }
