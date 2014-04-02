@@ -17,10 +17,10 @@ $ipcon->connect(&HOST, &PORT); # Connect to brickd
 my $obj = $tir->get_object_temperature()/10.0;
 my $amb = $tir->get_ambient_temperature()/10.0;
 
-print "\nObject Temperature: ".$obj." °C\n";
-print "\nAmbient Temperature: ".$amb." °C\n";
+print "Object Temperature: ".$obj." °C\n";
+print "Ambient Temperature: ".$amb." °C\n";
 
-print "\nPress any key to exit...\n";
+print "Press any key to exit...\n";
 <STDIN>;
 $ipcon->disconnect();
 

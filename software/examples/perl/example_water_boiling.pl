@@ -12,8 +12,9 @@ use constant UID => 'jfp'; # Change to your UID
 sub cb_reached
 {
     my ($temperature) = @_;
-    print "\nThe surface has a temperature of ".$temperature/10.0." °C.";
-    print "\nThe water is boiling!\n";
+
+    print "The surface has a temperature of ".$temperature/10.0." °C.\n";
+    print "The water is boiling!\n";
 }
 
 my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
@@ -34,7 +35,7 @@ $tir->register_callback($tir->CALLBACK_OBJECT_TEMPERATURE_REACHED, 'cb_reached')
 # Configure threshold for "greater than 100 °C" (unit is °C/10)
 $tir->set_object_temperature_callback_threshold('>', 100*10, 0);
 
-print "\nPress any key to exit...\n";
+print "Press any key to exit...\n";
 <STDIN>;
 $ipcon->disconnect();
 

@@ -12,12 +12,15 @@ use constant UID => 'jfp'; # Change to your UID
 sub cb_object
 {
     my ($temperature) = @_;
-    print "\nObject Temperature: ".$temperature/10.0." °C\n";
+
+    print "Object Temperature: ".$temperature/10.0." °C\n";
 }
+
 sub cb_ambient
 {
     my ($temperature) = @_;
-    print "\nAmbient Temperature: ".$temperature/10.0." °C\n";
+
+    print "Ambient Temperature: ".$temperature/10.0." °C\n";
 }
 
 my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
@@ -37,7 +40,7 @@ $tir->register_callback($tir->CALLBACK_OBJECT_TEMPERATURE, 'cb_object');
 # Register ambient temperature callback to function cb_ambient
 $tir->register_callback($tir->CALLBACK_AMBIENT_TEMPERATURE, 'cb_ambient');
 
-print "\nPress any key to exit...\n";
+print "Press any key to exit...\n";
 <STDIN>;
 $ipcon->disconnect();
 
