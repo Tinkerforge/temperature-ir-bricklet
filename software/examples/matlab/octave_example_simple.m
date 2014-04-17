@@ -12,12 +12,11 @@ function octave_example_simple
     % Don't use device before ipcon is connected
 
     % Get current object and ambient temperatures (unit is °C/10)
-    obj = str2num(tir.getObjectTemperature().toString())/10;
-    amb = str2num(tir.getAmbientTemperature().toString())/10;
+    obj = str2num(tir.getObjectTemperature().toString());
+    amb = str2num(tir.getAmbientTemperature().toString());
+    fprintf("Object Temperature: %g°C\n", obj/10.0);
+    fprintf("Ambient Temperature: %g°C\n", amb/10.0);
 
-    fprintf("Object Temperature: %g°C\n", obj);
-    fprintf("Ambient Temperature: %g°C\n", amb);
-
-    input("\nPress any key to exit...\n", "s");
+    input("Press any key to exit...\n", "s");
     ipcon.disconnect();
 end

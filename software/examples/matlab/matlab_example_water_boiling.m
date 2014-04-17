@@ -19,18 +19,18 @@ function matlab_example_water_boiling
     tir.setDebouncePeriod(10000)
 
     % Register threshold reached callback to function cb_reached
-    set(tir, 'ObjectTemperatureReachedCallback', @(h, e)cb_reached(e.temperature));
+    set(tir, 'ObjectTemperatureReachedCallback', @(h, e) cb_reached(e));
 
     % Configure threshold for "greater than 100 °C" (unit is °C/10)
     tir.setObjectTemperatureCallbackThreshold('>', 100*10, 0);
     
-    input('\nPress any key to exit...\n', 's');
+    input('Press any key to exit...\n', 's');
     ipcon.disconnect();
 end
 
 % Callback for object temperature greater than 100 °C
 % (parameter has unit °C/10)
-function cb_reached(temperature)
-    fprintf('The surface has a temperature of %g°C.\n', temperature/10);
+function cb_reached(e)
+    fprintf('The surface has a temperature of %g°C.\n', e.temperature/10.0);
     fprintf('The water is boiling!\n');
 end

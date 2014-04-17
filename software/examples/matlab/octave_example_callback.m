@@ -18,19 +18,21 @@ function octave_example_callback
     tir.setAmbientTemperatureCallbackPeriod(1000);
 
     % Register object temperature callback to function cb_object
-    tir.addObjectTemperatureListener("cb_object");
-    % Register ambient temperature callback to function cb_ambient
-    tir.addAmbientTemperatureListener("cb_ambient");
+    tir.addObjectTemperatureCallback(@cb_object);
 
-    input("\nPress any key to exit...\n", "s");
+    % Register ambient temperature callback to function cb_ambient
+    tir.addAmbientTemperatureCallback(@cb_ambient);
+
+    input("Press any key to exit...\n", "s");
     ipcon.disconnect();
 end
 
 % Callback functions for object/ambient temperature callbacks 
 % (parameters have unit °C/10)
-function cb_object(temperature)
-    fprintf("Object Temperature: %g°C\n", str2num(temperature.toString())/10);
+function cb_object(e)
+    fprintf("Object Temperature: %g°C\n", str2num(e.temperature.toString())/10.0);
 end
-function cb_ambient(temperature)
-    fprintf("Ambient Temperature: %g°C\n", str2num(temperature.toString())/10);
+
+function cb_ambient(e)
+    fprintf("Ambient Temperature: %g°C\n", str2num(e.temperature.toString())/10.0);
 end

@@ -13,12 +13,11 @@ function matlab_example_simple
     % Don't use device before ipcon is connected
 
     % Get current object and ambient temperatures (unit is °C/10)
-    obj = tir.getObjectTemperature()/10;
-    amb = tir.getAmbientTemperature()/10;
+    obj = tir.getObjectTemperature();
+    amb = tir.getAmbientTemperature();
+    print('Object Temperature: %g°C\n', obj/10.0);
+    print('Ambient Temperature: %g°C\n', amb/10.0);
 
-    print('Object Temperature: %g°C\n', obj);
-    print('Ambient Temperature: %g°C\n', amb);
-
-    input('\nPress any key to exit...\n', 's');
+    input('Press any key to exit...\n', 's');
     ipcon.disconnect();
 end

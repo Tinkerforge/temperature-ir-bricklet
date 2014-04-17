@@ -18,18 +18,18 @@ function octave_example_water_boiling
     tir.setDebouncePeriod(10000)
 
     % Register threshold reached callback to function cb_reached
-    tir.addObjectTemperatureReachedListener("cb_reached");
+    tir.addObjectTemperatureReachedCallback(@cb_reached);
 
     % Configure threshold for "greater than 100 °C" (unit is °C/10)
     tir.setObjectTemperatureCallbackThreshold(">", 100*10, 0);
     
-    input("\nPress any key to exit...\n", "s");
+    input("Press any key to exit...\n", "s");
     ipcon.disconnect();
 end
 
 % Callback for object temperature greater than 100 °C
 % (parameter has unit °C/10)
-function cb_reached(temperature)
-    fprintf("The surface has a temperature of %g°C.\n", str2num(temperature.toString())/10);
+function cb_reached(e)
+    fprintf("The surface has a temperature of %g°C.\n", str2num(e.temperature.toString())/10.0);
     fprintf("The water is boiling!\n");
 end

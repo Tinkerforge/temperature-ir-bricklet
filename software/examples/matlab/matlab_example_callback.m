@@ -19,19 +19,20 @@ function matlab_example_callback
     tir.setAmbientTemperatureCallbackPeriod(1000);
 
     % Register object temperature callback to function cb_object
-    set(tir, 'ObjectTemperatureCallback', @(h, e)cb_object(e.temperature));
+    set(tir, 'ObjectTemperatureCallback', @(h, e) cb_object(e));
     % Register ambient temperature callback to function cb_ambient
-    set(tir, 'AmbientTemperatureCallback', @(h, e)cb_ambient(e.temperature));
+    set(tir, 'AmbientTemperatureCallback', @(h, e) cb_ambient(e));
 
-    input('\nPress any key to exit...\n', 's');
+    input('Press any key to exit...\n', 's');
     ipcon.disconnect();
 end
 
 % Callback functions for object/ambient temperature callbacks 
 % (parameters have unit °C/10)
-function cb_object(temperature)
-    fprintf('Object Temperature: %g°C\n', temperature/10);
+function cb_object(e)
+    fprintf('Object Temperature: %g°C\n', e.temperature/10.0);
 end
-function cb_ambient(temperature)
-    fprintf('Ambient Temperature: %g°C\n', temperature/10);
+
+function cb_ambient(e)
+    fprintf('Ambient Temperature: %g°C\n', e.temperature/10.0);
 end
