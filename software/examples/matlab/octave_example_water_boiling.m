@@ -1,4 +1,4 @@
-function octave_example_water_boiling
+function octave_example_water_boiling()
     more off;
     
     HOST = "localhost";

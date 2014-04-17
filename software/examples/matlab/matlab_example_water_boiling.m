@@ -1,4 +1,4 @@
-function matlab_example_water_boiling
+function matlab_example_water_boiling()
     import com.tinkerforge.IPConnection;
     import com.tinkerforge.BrickletTemperatureIR;
 
