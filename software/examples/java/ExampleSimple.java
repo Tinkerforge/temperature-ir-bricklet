@@ -22,7 +22,7 @@ public class ExampleSimple {
 		System.out.println("Object Temperature: " + obj/10.0 + " °C");
 		System.out.println("Ambient Temperature: " + amb/10.0 + " °C");
 
-		System.console().readLine("Press key to exit\n");
+		System.out.println("Press key to exit"); System.in.read();
 		ipcon.disconnect();
 	}
 }
