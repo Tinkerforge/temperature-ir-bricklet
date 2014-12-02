@@ -34,8 +34,8 @@ class Example
 		// Configure threshold for "greater than 100 °C" (unit is °C/10)
 		temp.SetObjectTemperatureCallbackThreshold('>', 100*10, 0);
 
-		System.Console.WriteLine("Press key to exit");
-		System.Console.ReadKey();
+		System.Console.WriteLine("Press enter to exit");
+		System.Console.ReadLine();
 		ipcon.Disconnect();
 	}
 }
