@@ -5,3 +5,4 @@
 2.0.1: Don't send threshold callback twice
 2.0.2: Fix wrong length for GetDebounce packet (through brickletlib)
 2.0.3: Go back to synchronous I2C communication because of rare problems with freeRTOS
+2.0.4: Make sure that select line is pulled, so that I2C switch on Master Brick 2.1 works properly

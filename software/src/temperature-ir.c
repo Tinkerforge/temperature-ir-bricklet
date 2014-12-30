@@ -229,6 +229,7 @@ void ir_temp_callback_get_emissivity(Async *a) {
 }
 
 void ir_temp_set_emissivity_correction(const uint16_t value, const uint8_t part) {
+	const uint8_t port = BS->port - 'a';
 	uint16_t write_value = value;
 	// Check minimum value
 	if(write_value < 0xFFFF/10) {
@@ -263,6 +264,7 @@ void ir_temp_set_emissivity_correction(const uint16_t value, const uint8_t part)
 	// Turn on switch to allow i2c (turned off again in callback)
 	PIN_I2C_SWITCH.type = PIO_OUTPUT_1;
 	BA->PIO_Configure(&PIN_I2C_SWITCH, 1);
+	BA->bricklet_select(port);
 
 	BA->TWID_Write(BA->twid,
 				   I2C_ADDRESS,
@@ -272,13 +274,16 @@ void ir_temp_set_emissivity_correction(const uint16_t value, const uint8_t part)
 				   I2C_DATA_LENGTH,
 #ifdef USE_ASYNC_TWI
 				   &BC->async);
+	BA->bricklet_deselect(port);
 #else
 	               NULL);
+	BA->bricklet_deselect(port);
 	ir_temp_callback_set_emissivity(NULL);
 #endif
 }
 
 void ir_temp_get_emissivity_correction(void) {
+	const uint8_t port = BS->port - 'a';
 	// Mutex is given in callback
 	if(!BA->mutex_take(*BA->mutex_twi_bricklet, 0)) {
 		return;
@@ -292,6 +297,7 @@ void ir_temp_get_emissivity_correction(void) {
 	// Turn on switch to allow i2c (turned off again in callback)
 	PIN_I2C_SWITCH.type = PIO_OUTPUT_1;
 	BA->PIO_Configure(&PIN_I2C_SWITCH, 1);
+	BA->bricklet_select(port);
 
 #ifdef USE_ASYNC_TWI
 	BC->async.callback = ir_temp_callback_get_emissivity;
@@ -304,8 +310,10 @@ void ir_temp_get_emissivity_correction(void) {
                   I2C_DATA_LENGTH,
 #ifdef USE_ASYNC_TWI
 				  &BC->async);
+	BA->bricklet_deselect(port);
 #else
 				  NULL);
+	BA->bricklet_deselect(port);
 	ir_temp_callback_get_emissivity(NULL);
 #endif
 }
@@ -326,6 +334,8 @@ uint8_t ir_temp_calculate_pec(const uint8_t *data, const uint8_t length) {
 }
 
 bool ir_temp_next_value(void) {
+	const uint8_t port = BS->port - 'a';
+
 	// Mutex is given in callback
 	if(!BA->mutex_take(*BA->mutex_twi_bricklet, 0)) {
 		return false;
@@ -338,6 +348,7 @@ bool ir_temp_next_value(void) {
 	// Turn on switch to allow i2c (turned off again in callback)
 	PIN_I2C_SWITCH.type = PIO_OUTPUT_1;
 	BA->PIO_Configure(&PIN_I2C_SWITCH, 1);
+	BA->bricklet_select(port);
 
 #ifdef USE_ASYNC_TWI
 	BC->async.callback = ir_temp_callback_value;
@@ -350,8 +361,10 @@ bool ir_temp_next_value(void) {
                   I2C_DATA_LENGTH,
 #ifdef USE_ASYNC_TWI
 				  &BC->async);
+	BA->bricklet_deselect(port);
 #else
 				  NULL);
+	BA->bricklet_deselect(port);
 	ir_temp_callback_value(NULL);
 #endif
 
