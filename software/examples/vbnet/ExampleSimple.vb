@@ -20,7 +20,7 @@ Module ExampleSimple
         System.Console.WriteLine("Ambient Temperature: " + (amb/10.0).ToString() + " C")
 
         System.Console.WriteLine("Press key to exit")
-        System.Console.ReadKey()
+        System.Console.ReadLine()
         ipcon.Disconnect()
     End Sub
 End Module

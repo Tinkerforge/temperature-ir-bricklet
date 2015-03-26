@@ -32,7 +32,7 @@ Module ExampleThreshold
         tir.SetObjectTemperatureCallbackThreshold(">"C, 100*10, 0)
 
         System.Console.WriteLine("Press key to exit")
-        System.Console.ReadKey()
+        System.Console.ReadLine()
         ipcon.Disconnect()
     End Sub
 End Module
