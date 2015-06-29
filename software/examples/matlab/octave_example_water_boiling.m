@@ -1,6 +1,6 @@
 function octave_example_water_boiling()
     more off;
-    
+
     HOST = "localhost";
     PORT = 4223;
     UID = "kqw"; % Change to your UID
@@ -22,14 +22,21 @@ function octave_example_water_boiling()
 
     % Configure threshold for "greater than 100 °C" (unit is °C/10)
     tir.setObjectTemperatureCallbackThreshold(">", 100*10, 0);
-    
+
     input("Press any key to exit...\n", "s");
     ipcon.disconnect();
 end
 
-% Callback for object temperature greater than 100 °C
-% (parameter has unit °C/10)
+% Callback for object temperature greater than 100 °C (parameter has unit °C/10)
 function cb_reached(e)
-    fprintf("The surface has a temperature of %g°C.\n", str2num(e.temperature.toString())/10.0);
+    fprintf("The surface has a temperature of %g°C.\n", short2int(e.temperature)/10.0);
     fprintf("The water is boiling!\n");
+end
+
+function int = short2int(short)
+    if compare_versions(version(), "3.8", "<=")
+        int = short.intValue();
+    else
+        int = short;
+    end
 end

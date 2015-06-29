@@ -1,6 +1,6 @@
 function octave_example_callback()
     more off;
-    
+
     HOST = "localhost";
     PORT = 4223;
     UID = "kqw"; % Change to your UID
@@ -12,7 +12,7 @@ function octave_example_callback()
     % Don't use device before ipcon is connected
 
     % Set Period for temperature callbacks to 1s (1000ms)
-    % Note: The callbacks are only called every second if the 
+    % Note: The callbacks are only called every second if the
     %       value has changed since the last call!
     tir.setObjectTemperatureCallbackPeriod(1000);
     tir.setAmbientTemperatureCallbackPeriod(1000);
@@ -27,12 +27,20 @@ function octave_example_callback()
     ipcon.disconnect();
 end
 
-% Callback functions for object/ambient temperature callbacks 
+% Callback functions for object/ambient temperature callbacks
 % (parameters have unit °C/10)
 function cb_object(e)
-    fprintf("Object Temperature: %g°C\n", str2num(e.temperature.toString())/10.0);
+    fprintf("Object Temperature: %g°C\n", short2int(e.temperature)/10.0);
 end
 
 function cb_ambient(e)
-    fprintf("Ambient Temperature: %g°C\n", str2num(e.temperature.toString())/10.0);
+    fprintf("Ambient Temperature: %g°C\n", short2int(e.temperature)/10.0);
+end
+
+function int = short2int(short)
+    if compare_versions(version(), "3.8", "<=")
+        int = short.intValue();
+    else
+        int = short;
+    end
 end
