@@ -5,7 +5,7 @@
 
 #define HOST "localhost"
 #define PORT 4223
-#define UID "abcde" // Change to your UID
+#define UID "XYZ" // Change to your UID
 
 int main() {
 	// Create IP connection
@@ -14,7 +14,7 @@ int main() {
 
 	// Create device object
 	TemperatureIR tir;
-	temperature_ir_create(&tir, UID, &ipcon); 
+	temperature_ir_create(&tir, UID, &ipcon);
 
 	// Connect to brickd
 	if(ipcon_connect(&ipcon, HOST, PORT) < 0) {
@@ -23,14 +23,23 @@ int main() {
 	}
 	// Don't use device before ipcon is connected
 
-	// Get current ambient and object temperatures (unit is °C/10)
-	int16_t obj;
-	int16_t amb;
-	temperature_ir_get_object_temperature(&tir, &obj);
-	temperature_ir_get_ambient_temperature(&tir, &amb);
+	// Get current ambient temperature (unit is °C/10)
+	int16_t ambient_temperature;
+	if(temperature_ir_get_ambient_temperature(&tir, &ambient_temperature) < 0) {
+		fprintf(stderr, "Could not get ambient temperature, probably timeout\n");
+		exit(1);
+	}
 
-	printf("Object Temperature: %f °C\n", obj/10.0);
-	printf("Ambient Temperature: %f °C\n", amb/10.0);
+	printf("Ambient Temperature: %f °C\n", ambient_temperature/10.0);
+
+	// Get current object temperature (unit is °C/10)
+	int16_t object_temperature;
+	if(temperature_ir_get_object_temperature(&tir, &object_temperature) < 0) {
+		fprintf(stderr, "Could not get object temperature, probably timeout\n");
+		exit(1);
+	}
+
+	printf("Object Temperature: %f °C\n", object_temperature/10.0);
 
 	printf("Press key to exit\n");
 	getchar();

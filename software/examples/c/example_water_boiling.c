@@ -5,7 +5,7 @@
 
 #define HOST "localhost"
 #define PORT 4223
-#define UID "abcde" // Change to your UID
+#define UID "XYZ" // Change to your UID
 
 // Callback for object temperature greater than 100 °C
 // (parameter has unit °C/10)
@@ -23,7 +23,7 @@ int main() {
 
 	// Create device object
 	TemperatureIR tir;
-	temperature_ir_create(&tir, UID, &ipcon); 
+	temperature_ir_create(&tir, UID, &ipcon);
 
 	// Connect to brickd
 	if(ipcon_connect(&ipcon, HOST, PORT) < 0) {

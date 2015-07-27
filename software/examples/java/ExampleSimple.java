@@ -1,11 +1,11 @@
-import com.tinkerforge.BrickletTemperatureIR;
 import com.tinkerforge.IPConnection;
+import com.tinkerforge.BrickletTemperatureIR;
 
 public class ExampleSimple {
 	private static final String HOST = "localhost";
 	private static final int PORT = 4223;
-	private static final String UID = "ABC"; // Change to your UID
-	
+	private static final String UID = "XYZ"; // Change to your UID
+
 	// Note: To make the example code cleaner we do not handle exceptions. Exceptions you
 	//       might normally want to catch are described in the documentation
 	public static void main(String args[]) throws Exception {
@@ -15,12 +15,13 @@ public class ExampleSimple {
 		ipcon.connect(HOST, PORT); // Connect to brickd
 		// Don't use device before ipcon is connected
 
-		// Get current object and ambient temperature (unit is °C/10)
-		short obj = tir.getObjectTemperature(); // Can throw com.tinkerforge.TimeoutException
-		short amb = tir.getAmbientTemperature(); // Can throw com.tinkerforge.TimeoutException
+		// Get current ambient temperature (unit is °C/10)
+		short ambientTemperature = tir.getAmbientTemperature(); // Can throw com.tinkerforge.TimeoutException
+		System.out.println("Ambient Temperature: " + ambientTemperature/10.0 + " °C");
 
-		System.out.println("Object Temperature: " + obj/10.0 + " °C");
-		System.out.println("Ambient Temperature: " + amb/10.0 + " °C");
+		// Get current object temperature (unit is °C/10)
+		short objectTemperature = tir.getObjectTemperature(); // Can throw com.tinkerforge.TimeoutException
+		System.out.println("Object Temperature: " + objectTemperature/10.0 + " °C");
 
 		System.out.println("Press key to exit"); System.in.read();
 		ipcon.disconnect();

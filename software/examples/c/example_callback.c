@@ -5,20 +5,20 @@
 
 #define HOST "localhost"
 #define PORT 4223
-#define UID "abcde" // Change to your UID
+#define UID "XYZ" // Change to your UID
 
-// Callback functions for object/ambient temperature callbacks
-// (parameters have unit °C/10)
-void cb_object(uint16_t temperature, void *user_data) {
+// Callback function for ambient temperature callback (parameter has unit °C/10)
+void cb_ambient_temperature(int16_t ambient_temperature, void *user_data) {
 	(void)user_data; // avoid unused parameter warning
 
-	printf("Object Temperature: %f °C.\n", temperature/10.0);
+	printf("Ambient Temperature: %f °C\n", ambient_temperature/10.0);
 }
 
-void cb_ambient(uint16_t temperature, void *user_data) {
+// Callback function for object temperature callback (parameter has unit °C/10)
+void cb_object_temperature(int16_t object_temperature, void *user_data) {
 	(void)user_data; // avoid unused parameter warning
 
-	printf("Ambient Temperature: %f °C.\n", temperature/10.0);
+	printf("Object Temperature: %f °C\n", object_temperature/10.0);
 }
 
 int main() {
@@ -28,7 +28,7 @@ int main() {
 
 	// Create device object
 	TemperatureIR tir;
-	temperature_ir_create(&tir, UID, &ipcon); 
+	temperature_ir_create(&tir, UID, &ipcon);
 
 	// Connect to brickd
 	if(ipcon_connect(&ipcon, HOST, PORT) < 0) {
@@ -37,22 +37,26 @@ int main() {
 	}
 	// Don't use device before ipcon is connected
 
-	// Set Period for temperature callbacks to 1s (1000ms)
-	// Note: The callbacks are only called every second if the 
-	//       value has changed since the last call!
-	temperature_ir_set_object_temperature_callback_period(&tir, 1000);
+	// Set period for ambient temperature callback to 1s (1000ms)
+	// Note: The ambient temperature callback is only called every second
+	//       if the ambient temperature has changed since the last call!
 	temperature_ir_set_ambient_temperature_callback_period(&tir, 1000);
 
-	// Register object temperature callback to function cb_object
+	// Register ambient temperature callback to function cb_ambient_temperature
 	temperature_ir_register_callback(&tir,
-	                                 TEMPERATURE_IR_CALLBACK_OBJECT_TEMPERATURE, 
-	                                 (void *)cb_object,
+	                                 TEMPERATURE_IR_CALLBACK_AMBIENT_TEMPERATURE,
+	                                 (void *)cb_ambient_temperature,
 	                                 NULL);
 
-	// Register ambient temperature callback to function cb_ambient
+	// Set period for object temperature callback to 1s (1000ms)
+	// Note: The object temperature callback is only called every second
+	//       if the object temperature has changed since the last call!
+	temperature_ir_set_object_temperature_callback_period(&tir, 1000);
+
+	// Register object temperature callback to function cb_object_temperature
 	temperature_ir_register_callback(&tir,
-	                                 TEMPERATURE_IR_CALLBACK_AMBIENT_TEMPERATURE, 
-	                                 (void *)cb_ambient,
+	                                 TEMPERATURE_IR_CALLBACK_OBJECT_TEMPERATURE,
+	                                 (void *)cb_object_temperature,
 	                                 NULL);
 
 	printf("Press key to exit\n");
