@@ -45,10 +45,7 @@ int main() {
 	                                 NULL);
 
 	// Configure threshold for "greater than 100 °C" (unit is °C/10)
-	temperature_ir_set_object_temperature_callback_threshold(&tir,
-	                                                         '>',
-	                                                         100*10,
-	                                                         0);
+	temperature_ir_set_object_temperature_callback_threshold(&tir, '>', 100*10, 0);
 
 	printf("Press key to exit\n");
 	getchar();
