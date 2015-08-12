@@ -7,7 +7,7 @@
 #define PORT 4223
 #define UID "XYZ" // Change to your UID
 
-int main() {
+int main(void) {
 	// Create IP connection
 	IPConnection ipcon;
 	ipcon_create(&ipcon);
@@ -19,7 +19,7 @@ int main() {
 	// Connect to brickd
 	if(ipcon_connect(&ipcon, HOST, PORT) < 0) {
 		fprintf(stderr, "Could not connect\n");
-		exit(1);
+		return 1;
 	}
 	// Don't use device before ipcon is connected
 
@@ -27,7 +27,7 @@ int main() {
 	int16_t ambient_temperature;
 	if(temperature_ir_get_ambient_temperature(&tir, &ambient_temperature) < 0) {
 		fprintf(stderr, "Could not get ambient temperature, probably timeout\n");
-		exit(1);
+		return 1;
 	}
 
 	printf("Ambient Temperature: %f °C\n", ambient_temperature/10.0);
@@ -36,7 +36,7 @@ int main() {
 	int16_t object_temperature;
 	if(temperature_ir_get_object_temperature(&tir, &object_temperature) < 0) {
 		fprintf(stderr, "Could not get object temperature, probably timeout\n");
-		exit(1);
+		return 1;
 	}
 
 	printf("Object Temperature: %f °C\n", object_temperature/10.0);
@@ -44,4 +44,5 @@ int main() {
 	printf("Press key to exit\n");
 	getchar();
 	ipcon_destroy(&ipcon); // Calls ipcon_disconnect internally
+	return 0;
 }
