@@ -18,13 +18,13 @@ type
 const
   HOST = 'localhost';
   PORT = 4223;
-  UID = '365'; { Change to your UID }
+  UID = 'XYZ'; { Change to your UID }
 
 var
   e: TExample;
 
 procedure TExample.Execute;
-var obj, amb: smallint;
+var ambientTemperature: smallint; objectTemperature: smallint;
 begin
   { Create IP connection }
   ipcon := TIPConnection.Create;
@@ -36,12 +36,13 @@ begin
   ipcon.Connect(HOST, PORT);
   { Don't use device before ipcon is connected }
 
-  { Get current ambient and object temperatures (unit is °C/10) }
-  obj := tir.GetObjectTemperature;
-  amb := tir.GetAmbientTemperature;
+  { Get current ambient temperature (unit is °C/10) }
+  ambientTemperature := tir.GetAmbientTemperature;
+  WriteLn(Format('Ambient Temperature: %f °C', [ambientTemperature/10.0]));
 
-  WriteLn(Format('Object Temperature: %f °C', [obj/10.0]));
-  WriteLn(Format('Ambient Temperature: %f °C', [amb/10.0]));
+  { Get current object temperature (unit is °C/10) }
+  objectTemperature := tir.GetObjectTemperature;
+  WriteLn(Format('Object Temperature: %f °C', [objectTemperature/10.0]));
 
   WriteLn('Press key to exit');
   ReadLn;

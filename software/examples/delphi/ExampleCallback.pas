@@ -12,29 +12,29 @@ type
     ipcon: TIPConnection;
     tir: TBrickletTemperatureIR;
   public
-    procedure ObjectTemperatureCB(sender: TBrickletTemperatureIR; const temperature: smallint);
-    procedure AmbientTemperatureCB(sender: TBrickletTemperatureIR; const temperature: smallint);
+    procedure AmbientTemperatureCB(sender: TBrickletTemperatureIR; const ambientTemperature: smallint);
+    procedure ObjectTemperatureCB(sender: TBrickletTemperatureIR; const objectTemperature: smallint);
     procedure Execute;
   end;
 
 const
   HOST = 'localhost';
   PORT = 4223;
-  UID = '365'; { Change to your UID }
+  UID = 'XYZ'; { Change to your UID }
 
 var
   e: TExample;
 
-{ Callback functions for object/ambient temperature callbacks
-  (parameters have unit °C/10) }
-procedure TExample.ObjectTemperatureCB(sender: TBrickletTemperatureIR; const temperature: smallint);
+{ Callback procedure for ambient temperature callback (parameter has unit °C/10) }
+procedure TExample.AmbientTemperatureCB(sender: TBrickletTemperatureIR; const ambientTemperature: smallint);
 begin
-  WriteLn(Format('Object Temperature: %f °C', [temperature/10.0]));
+  WriteLn(Format('Ambient Temperature: %f °C', [ambientTemperature/10.0]));
 end;
 
-procedure TExample.AmbientTemperatureCB(sender: TBrickletTemperatureIR; const temperature: smallint);
+{ Callback procedure for object temperature callback (parameter has unit °C/10) }
+procedure TExample.ObjectTemperatureCB(sender: TBrickletTemperatureIR; const objectTemperature: smallint);
 begin
-  WriteLn(Format('Ambient Temperature: %f °C', [temperature/10.0]));
+  WriteLn(Format('Object Temperature: %f °C', [objectTemperature/10.0]));
 end;
 
 procedure TExample.Execute;
@@ -49,17 +49,21 @@ begin
   ipcon.Connect(HOST, PORT);
   { Don't use device before ipcon is connected }
 
-  { Set Period for temperature callbacks to 1s (1000ms)
-    Note: The callbacks are only called every second if the 
-          value has changed since the last call! }
-  tir.SetObjectTemperatureCallbackPeriod(1000);
+  { Set period for ambient temperature callback to 1s (1000ms)
+    Note: The ambient temperature callback is only called every second
+          if the ambient temperature has changed since the last call! }
   tir.SetAmbientTemperatureCallbackPeriod(1000);
+
+  { Register ambient temperature callback to procedure AmbientTemperatureCB }
+  tir.OnAmbientTemperature := {$ifdef FPC}@{$endif}AmbientTemperatureCB;
+
+  { Set period for object temperature callback to 1s (1000ms)
+    Note: The object temperature callback is only called every second
+          if the object temperature has changed since the last call! }
+  tir.SetObjectTemperatureCallbackPeriod(1000);
 
   { Register object temperature callback to procedure ObjectTemperatureCB }
   tir.OnObjectTemperature := {$ifdef FPC}@{$endif}ObjectTemperatureCB;
-  
-  { Register ambient temperature callback to procedure AmbientTemperatureCB }
-  tir.OnAmbientTemperature := {$ifdef FPC}@{$endif}AmbientTemperatureCB;
 
   WriteLn('Press key to exit');
   ReadLn;
