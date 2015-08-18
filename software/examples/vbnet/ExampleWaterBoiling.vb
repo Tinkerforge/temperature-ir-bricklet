@@ -1,9 +1,9 @@
 Imports Tinkerforge
 
-Module ExampleThreshold
+Module ExampleWaterBoiling
     Const HOST As String = "localhost"
     Const PORT As Integer = 4223
-    Const UID As String = "aNt" ' Change to your UID
+    Const UID As String = "XYZ" ' Change to your UID
 
     ' Callback for object temperature greater than 100 °C (parameter has unit °C/10)
     Sub ReachedCB(ByVal sender As BrickletTemperatureIR, ByVal temperature As Short)
