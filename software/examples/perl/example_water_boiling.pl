@@ -1,11 +1,11 @@
-#!/usr/bin/perl  
+#!/usr/bin/perl
 
 use Tinkerforge::IPConnection;
 use Tinkerforge::BrickletTemperatureIR;
 
 use constant HOST => 'localhost';
 use constant PORT => 4223;
-use constant UID => 'jfp'; # Change to your UID
+use constant UID => 'XYZ'; # Change to your UID
 
 # Callback for object temperature greater than 100 °C
 # (parameter has unit °C/10)
@@ -38,4 +38,3 @@ $tir->set_object_temperature_callback_threshold('>', 100*10, 0);
 print "Press any key to exit...\n";
 <STDIN>;
 $ipcon->disconnect();
-

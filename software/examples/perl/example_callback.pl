@@ -1,46 +1,50 @@
-#!/usr/bin/perl  
+#!/usr/bin/perl
 
 use Tinkerforge::IPConnection;
 use Tinkerforge::BrickletTemperatureIR;
 
 use constant HOST => 'localhost';
 use constant PORT => 4223;
-use constant UID => 'jfp'; # Change to your UID
-
-# Callback functions for object/ambient temperature callbacks 
-# (parameters have unit °C/10)
-sub cb_object
-{
-    my ($temperature) = @_;
-
-    print "Object Temperature: ".$temperature/10.0." °C\n";
-}
-
-sub cb_ambient
-{
-    my ($temperature) = @_;
-
-    print "Ambient Temperature: ".$temperature/10.0." °C\n";
-}
+use constant UID => 'XYZ'; # Change to your UID
 
 my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
 my $tir = Tinkerforge::BrickletTemperatureIR->new(&UID, $ipcon); # Create device object
 
+# Callback subroutine for ambient temperature callback (parameter has unit °C/10)
+sub cb_ambient_temperature
+{
+    my ($ambient_temperature) = @_;
+
+    print "Ambient Temperature: " . $ambient_temperature/10.0 . " °C\n";
+}
+
+# Callback subroutine for object temperature callback (parameter has unit °C/10)
+sub cb_object_temperature
+{
+    my ($object_temperature) = @_;
+
+    print "Object Temperature: " . $object_temperature/10.0 . " °C\n";
+}
+
 $ipcon->connect(&HOST, &PORT); # Connect to brickd
 # Don't use device before ipcon is connected
 
-# Set Period for temperature callbacks to 1s (1000ms)
-# Note: The callbacks are only called every second if the 
-#       value has changed since the last call!
-$tir->set_object_temperature_callback_period(1000);
+# Set period for ambient temperature callback to 1s (1000ms)
+# Note: The ambient temperature callback is only called every second
+#       if the ambient temperature has changed since the last call!
 $tir->set_ambient_temperature_callback_period(1000);
 
-# Register object temperature callback to function cb_object
-$tir->register_callback($tir->CALLBACK_OBJECT_TEMPERATURE, 'cb_object');
-# Register ambient temperature callback to function cb_ambient
-$tir->register_callback($tir->CALLBACK_AMBIENT_TEMPERATURE, 'cb_ambient');
+# Register ambient temperature callback to subroutine cb_ambient_temperature
+$tir->register_callback($tir->CALLBACK_AMBIENT_TEMPERATURE, 'cb_ambient_temperature');
+
+# Set period for object temperature callback to 1s (1000ms)
+# Note: The object temperature callback is only called every second
+#       if the object temperature has changed since the last call!
+$tir->set_object_temperature_callback_period(1000);
+
+# Register object temperature callback to subroutine cb_object_temperature
+$tir->register_callback($tir->CALLBACK_OBJECT_TEMPERATURE, 'cb_object_temperature');
 
 print "Press any key to exit...\n";
 <STDIN>;
 $ipcon->disconnect();
-
