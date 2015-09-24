@@ -4,7 +4,7 @@ program ExampleWaterBoiling;
 {$ifdef FPC}{$mode OBJFPC}{$H+}{$endif}
 
 uses
-  Math, SysUtils, IPConnection, BrickletTemperatureIR;
+  SysUtils, IPConnection, BrickletTemperatureIR;
 
 type
   TExample = class
@@ -12,7 +12,8 @@ type
     ipcon: TIPConnection;
     tir: TBrickletTemperatureIR;
   public
-    procedure ReachedCB(sender: TBrickletTemperatureIR; const temperature: smallint);
+    procedure ObjectTemperatureReachedCB(sender: TBrickletTemperatureIR;
+                                         const temperature: smallint);
     procedure Execute;
   end;
 
@@ -24,11 +25,11 @@ const
 var
   e: TExample;
 
-{ Callback for object temperature greater than 100 °C
-  (parameter has unit °C/10) }
-procedure TExample.ReachedCB(sender: TBrickletTemperatureIR; const temperature: smallint);
+{ Callback procedure for object temperature reached callback (parameter has unit °C/10) }
+procedure TExample.ObjectTemperatureReachedCB(sender: TBrickletTemperatureIR;
+                                              const temperature: smallint);
 begin
-  WriteLn(Format('The surface has a temperature of %f °C', [temperature/10.0]));
+  WriteLn(Format('Object Temperature: %f °C', [temperature/10.0]));
   WriteLn('The water is boiling!');
 end;
 
@@ -44,16 +45,16 @@ begin
   ipcon.Connect(HOST, PORT);
   { Don't use device before ipcon is connected }
 
-  { Set emissivity to 0.98 (emissivity of water) }
-  tir.SetEmissivity(Floor($FFFF*0.98));
+  { Set emissivity to 0.98 (emissivity of water, 65535 * 0.98 = 64224.299) }
+  tir.SetEmissivity(64224);
 
   { Get threshold callbacks with a debounce time of 10 seconds (10000ms) }
   tir.SetDebouncePeriod(10000);
 
-  { Register threshold reached callback to procedure ReachedCB }
-  tir.OnObjectTemperatureReached := {$ifdef FPC}@{$endif}ReachedCB;
+  { Register object temperature reached callback to procedure ObjectTemperatureReachedCB }
+  tir.OnObjectTemperatureReached := {$ifdef FPC}@{$endif}ObjectTemperatureReachedCB;
 
-  { Configure threshold for "greater than 100 °C" (unit is °C/10) }
+  { Configure threshold for object temperature "greater than 100 °C" (unit is °C/10) }
   tir.SetObjectTemperatureCallbackThreshold('>', 100*10, 0);
 
   WriteLn('Press key to exit');

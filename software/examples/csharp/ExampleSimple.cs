@@ -1,3 +1,4 @@
+using System;
 using Tinkerforge;
 
 class Example
@@ -16,14 +17,14 @@ class Example
 
 		// Get current ambient temperature (unit is °C/10)
 		short ambientTemperature = tir.GetAmbientTemperature();
-		System.Console.WriteLine("Ambient Temperature: " + ambientTemperature/10.0 + " °C");
+		Console.WriteLine("Ambient Temperature: " + ambientTemperature/10.0 + " °C");
 
 		// Get current object temperature (unit is °C/10)
 		short objectTemperature = tir.GetObjectTemperature();
-		System.Console.WriteLine("Object Temperature: " + objectTemperature/10.0 + " °C");
+		Console.WriteLine("Object Temperature: " + objectTemperature/10.0 + " °C");
 
-		System.Console.WriteLine("Press enter to exit");
-		System.Console.ReadLine();
+		Console.WriteLine("Press enter to exit");
+		Console.ReadLine();
 		ipcon.Disconnect();
 	}
 }

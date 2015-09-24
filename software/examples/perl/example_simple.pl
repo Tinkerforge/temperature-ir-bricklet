@@ -21,6 +21,6 @@ print "Ambient Temperature: " . $ambient_temperature/10.0 . " °C\n";
 my $object_temperature = $tir->get_object_temperature();
 print "Object Temperature: " . $object_temperature/10.0 . " °C\n";
 
-print "Press any key to exit...\n";
+print "Press key to exit\n";
 <STDIN>;
 $ipcon->disconnect();

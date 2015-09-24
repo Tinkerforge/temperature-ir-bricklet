@@ -1,9 +1,10 @@
 #!/bin/sh
-# connects to localhost:4223 by default, use --host and --port to change it
+# Connects to localhost:4223 by default, use --host and --port to change this
 
-# change to your UID
-uid=XYZ
+uid=XYZ # Change to your UID
 
-# get current ambient and object temperatures (unit is °C/10)
-tinkerforge call temperature-ir-bricklet $uid get-object-temperature
+# Get current ambient temperature (unit is °C/10)
 tinkerforge call temperature-ir-bricklet $uid get-ambient-temperature
+
+# Get current object temperature (unit is °C/10)
+tinkerforge call temperature-ir-bricklet $uid get-object-temperature

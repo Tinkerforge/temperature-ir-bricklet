@@ -1,3 +1,4 @@
+Imports System
 Imports Tinkerforge
 
 Module ExampleSimple
@@ -14,14 +15,14 @@ Module ExampleSimple
 
         ' Get current ambient temperature (unit is °C/10)
         Dim ambientTemperature As Short = tir.GetAmbientTemperature()
-        System.Console.WriteLine("Ambient Temperature: " + (ambientTemperature/10.0).ToString() + " °C")
+        Console.WriteLine("Ambient Temperature: " + (ambientTemperature/10.0).ToString() + " °C")
 
         ' Get current object temperature (unit is °C/10)
         Dim objectTemperature As Short = tir.GetObjectTemperature()
-        System.Console.WriteLine("Object Temperature: " + (objectTemperature/10.0).ToString() + " °C")
+        Console.WriteLine("Object Temperature: " + (objectTemperature/10.0).ToString() + " °C")
 
-        System.Console.WriteLine("Press key to exit")
-        System.Console.ReadLine()
+        Console.WriteLine("Press key to exit")
+        Console.ReadLine()
         ipcon.Disconnect()
     End Sub
 End Module

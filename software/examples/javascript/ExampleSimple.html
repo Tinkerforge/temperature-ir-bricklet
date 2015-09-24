@@ -34,28 +34,30 @@
                 var tir = new Tinkerforge.BrickletTemperatureIR(UID, ipcon); // Create device object
                 ipcon.connect(HOST, PORT,
                     function(error) {
-                        textArea.value += 'Error: '+error+ '\n';
+                        textArea.value += 'Error: ' + error + '\n';
                     }
                 ); // Connect to brickd
                 // Don't use device before ipcon is connected
 
                 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-                    function(connectReason) {
-                        // Get current object and ambient temperatures (unit is °C/10)
-                        tir.getObjectTemperature(
-                            function(obj) {
-                                textArea.value += 'Object Temperature: '+obj/10+' °C\n';
+                    function (connectReason) {
+                        // Get current ambient temperature (unit is °C/10)
+                        tir.getAmbientTemperature(
+                            function (ambientTemperature) {
+                                textArea.value += 'Ambient Temperature: ' + ambientTemperature/10.0 + ' °C\n';
                             },
-                            function(error) {
-                                textArea.value += 'Error: '+error+'\n';
+                            function (error) {
+                                textArea.value += 'Error: ' + error + '\n';
                             }
                         );
-                        tir.getAmbientTemperature(
-                            function(amb) {
-                                textArea.value += 'Ambient Temperature: '+amb/10+' °C\n';
+
+                        // Get current object temperature (unit is °C/10)
+                        tir.getObjectTemperature(
+                            function (objectTemperature) {
+                                textArea.value += 'Object Temperature: ' + objectTemperature/10.0 + ' °C\n';
                             },
-                            function(error) {
-                                textArea.value += 'Error: '+error+'\n';
+                            function (error) {
+                                textArea.value += 'Error: ' + error + '\n';
                             }
                         );
                     }

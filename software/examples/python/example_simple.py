@@ -17,11 +17,11 @@ if __name__ == "__main__":
 
     # Get current ambient temperature (unit is °C/10)
     ambient_temperature = tir.get_ambient_temperature()
-    print('Ambient Temperature: ' + str(ambient_temperature/10.0) + ' °C')
+    print("Ambient Temperature: " + str(ambient_temperature/10.0) + " °C")
 
     # Get current object temperature (unit is °C/10)
     object_temperature = tir.get_object_temperature()
-    print('Object Temperature: ' + str(object_temperature/10.0) + ' °C')
+    print("Object Temperature: " + str(object_temperature/10.0) + " °C")
 
-    raw_input('Press key to exit\n') # Use input() in Python 3
+    raw_input("Press key to exit\n") # Use input() in Python 3
     ipcon.disconnect()

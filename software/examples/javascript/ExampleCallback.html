@@ -34,36 +34,26 @@
                 var tir = new Tinkerforge.BrickletTemperatureIR(UID, ipcon); // Create device object
                 ipcon.connect(HOST, PORT,
                     function(error) {
-                        textArea.value += 'Error: '+error+ '\n';
+                        textArea.value += 'Error: ' + error + '\n';
                     }
                 ); // Connect to brickd
                 // Don't use device before ipcon is connected
 
                 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-                    function(connectReason) {
-                        // Set Period for temperature callbacks to 1s (1000ms)
-                        // Note: The callbacks are only called every second if the
-                        // value has changed since the last call!
+                    function (connectReason) {
+                        // Set period for object temperature callback to 1s (1000ms)
+                        // Note: The object temperature callback is only called every second
+                        //       if the object temperature has changed since the last call!
                         tir.setObjectTemperatureCallbackPeriod(1000);
-                        tir.setAmbientTemperatureCallbackPeriod(1000);
                     }
                 );
+
                 // Register object temperature callback
                 tir.on(Tinkerforge.BrickletTemperatureIR.CALLBACK_OBJECT_TEMPERATURE,
-                    // Callback functions for object/ambient temperature callbacks
-                    // (parameters have unit °C/10)
-                    function(temp) {
-                        textArea.value += 'Object Temperature: '+temp/10+' °C\n';
+                    // Callback function for object temperature callback (parameter has unit °C/10)
+                    function (temperature) {
+                        textArea.value += 'Object Temperature: ' + temperature/10.0 + ' °C\n';
                         textArea.scrollTop = textArea.scrollHeight;
-                    }
-                );
-                // Register ambient temperature callback
-                tir.on(Tinkerforge.BrickletTemperatureIR.CALLBACK_AMBIENT_TEMPERATURE,
-                    // Callback functions for object/ambient temperature callbacks
-                    // (parameters have unit °C/10)
-                    function(temp) {
-                       textArea.value += 'Ambient Temperature: '+temp/10+' °C\n';
-                       textArea.scrollTop = textArea.scrollHeight;
                     }
                 );
             }

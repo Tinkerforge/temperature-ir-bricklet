@@ -16,12 +16,13 @@ $tir = new BrickletTemperatureIR(UID, $ipcon); // Create device object
 $ipcon->connect(HOST, PORT); // Connect to brickd
 // Don't use device before ipcon is connected
 
-// Get current object and ambient temperatures (unit is °C/10)
-$obj = $tir->getObjectTemperature() / 10.0;
-$amb = $tir->getAmbientTemperature() / 10.0;
+// Get current ambient temperature (unit is °C/10)
+$ambient_temperature = $tir->getAmbientTemperature();
+echo "Ambient Temperature: " . $ambient_temperature/10.0 . " °C\n";
 
-echo "Object Temperature: $obj °C\n";
-echo "Ambient Temperature: $amb °C\n";
+// Get current object temperature (unit is °C/10)
+$object_temperature = $tir->getObjectTemperature();
+echo "Object Temperature: " . $object_temperature/10.0 . " °C\n";
 
 echo "Press key to exit\n";
 fgetc(fopen('php://stdin', 'r'));
