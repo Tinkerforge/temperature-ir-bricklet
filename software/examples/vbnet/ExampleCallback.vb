@@ -7,8 +7,7 @@ Module ExampleCallback
     Const UID As String = "XYZ" ' Change to your UID
 
     ' Callback subroutine for object temperature callback (parameter has unit °C/10)
-    Sub ObjectTemperatureCB(ByVal sender As BrickletTemperatureIR, _
-                            ByVal temperature As Short)
+    Sub ObjectTemperatureCB(ByVal sender As BrickletTemperatureIR, ByVal temperature As Short)
         Console.WriteLine("Object Temperature: " + (temperature/10.0).ToString() + " °C")
     End Sub
 
