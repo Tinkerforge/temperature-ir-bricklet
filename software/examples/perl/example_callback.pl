@@ -5,7 +5,7 @@ use Tinkerforge::BrickletTemperatureIR;
 
 use constant HOST => 'localhost';
 use constant PORT => 4223;
-use constant UID => 'XYZ'; # Change to your UID
+use constant UID => 'XYZ'; # Change XYZ to the UID of your Temperature IR Bricklet
 
 # Callback subroutine for object temperature callback (parameter has unit °C/10)
 sub cb_object_temperature

@@ -4,7 +4,7 @@ Imports Tinkerforge
 Module ExampleWaterBoiling
     Const HOST As String = "localhost"
     Const PORT As Integer = 4223
-    Const UID As String = "XYZ" ' Change to your UID
+    Const UID As String = "XYZ" ' Change XYZ to the UID of your Temperature IR Bricklet
 
     ' Callback subroutine for object temperature reached callback (parameter has unit °C/10)
     Sub ObjectTemperatureReachedCB(ByVal sender As BrickletTemperatureIR, _

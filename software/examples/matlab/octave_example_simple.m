@@ -3,7 +3,7 @@ function octave_example_simple()
 
     HOST = "localhost";
     PORT = 4223;
-    UID = "XYZ"; % Change to your UID
+    UID = "XYZ"; % Change XYZ to the UID of your Temperature IR Bricklet
 
     ipcon = java_new("com.tinkerforge.IPConnection"); % Create IP connection
     tir = java_new("com.tinkerforge.BrickletTemperatureIR", UID, ipcon); % Create device object

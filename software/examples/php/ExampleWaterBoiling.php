@@ -8,7 +8,7 @@ use Tinkerforge\BrickletTemperatureIR;
 
 const HOST = 'localhost';
 const PORT = 4223;
-const UID = 'XYZ'; // Change to your UID
+const UID = 'XYZ'; // Change XYZ to the UID of your Temperature IR Bricklet
 
 // Callback function for object temperature reached callback (parameter has unit °C/10)
 function cb_objectTemperatureReached($temperature)

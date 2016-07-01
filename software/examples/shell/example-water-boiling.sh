@@ -1,7 +1,7 @@
 #!/bin/sh
 # Connects to localhost:4223 by default, use --host and --port to change this
 
-uid=XYZ # Change to your UID
+uid=XYZ # Change XYZ to the UID of your Temperature IR Bricklet
 
 # Set emissivity to 0.98 (emissivity of water, 65535 * 0.98 = 64224.299)
 tinkerforge call temperature-ir-bricklet $uid set-emissivity 64224

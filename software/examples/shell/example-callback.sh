@@ -1,7 +1,7 @@
 #!/bin/sh
 # Connects to localhost:4223 by default, use --host and --port to change this
 
-uid=XYZ # Change to your UID
+uid=XYZ # Change XYZ to the UID of your Temperature IR Bricklet
 
 # Handle incoming object temperature callbacks (parameter has unit °C/10)
 tinkerforge dispatch temperature-ir-bricklet $uid object-temperature &

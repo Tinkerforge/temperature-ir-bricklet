@@ -12,20 +12,22 @@ type
     ipcon: TIPConnection;
     tir: TBrickletTemperatureIR;
   public
-    procedure ObjectTemperatureCB(sender: TBrickletTemperatureIR; const temperature: smallint);
+    procedure ObjectTemperatureCB(sender: TBrickletTemperatureIR;
+                                  const temperature: smallint);
     procedure Execute;
   end;
 
 const
   HOST = 'localhost';
   PORT = 4223;
-  UID = 'XYZ'; { Change to your UID }
+  UID = 'XYZ'; { Change XYZ to the UID of your Temperature IR Bricklet }
 
 var
   e: TExample;
 
 { Callback procedure for object temperature callback (parameter has unit °C/10) }
-procedure TExample.ObjectTemperatureCB(sender: TBrickletTemperatureIR; const temperature: smallint);
+procedure TExample.ObjectTemperatureCB(sender: TBrickletTemperatureIR;
+                                       const temperature: smallint);
 begin
   WriteLn(Format('Object Temperature: %f °C', [temperature/10.0]));
 end;

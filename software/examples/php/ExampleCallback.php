@@ -8,7 +8,7 @@ use Tinkerforge\BrickletTemperatureIR;
 
 const HOST = 'localhost';
 const PORT = 4223;
-const UID = 'XYZ'; // Change to your UID
+const UID = 'XYZ'; // Change XYZ to the UID of your Temperature IR Bricklet
 
 // Callback function for object temperature callback (parameter has unit °C/10)
 function cb_objectTemperature($temperature)
@@ -23,7 +23,8 @@ $ipcon->connect(HOST, PORT); // Connect to brickd
 // Don't use device before ipcon is connected
 
 // Register object temperature callback to function cb_objectTemperature
-$tir->registerCallback(BrickletTemperatureIR::CALLBACK_OBJECT_TEMPERATURE, 'cb_objectTemperature');
+$tir->registerCallback(BrickletTemperatureIR::CALLBACK_OBJECT_TEMPERATURE,
+                       'cb_objectTemperature');
 
 // Set period for object temperature callback to 1s (1000ms)
 // Note: The object temperature callback is only called every second
