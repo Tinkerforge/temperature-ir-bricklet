@@ -30,7 +30,7 @@ class Example
 		tir.SetDebouncePeriod(10000);
 
 		// Register object temperature reached callback to function ObjectTemperatureReachedCB
-		tir.ObjectTemperatureReached += ObjectTemperatureReachedCB;
+		tir.ObjectTemperatureReachedCallback += ObjectTemperatureReachedCB;
 
 		// Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
 		tir.SetObjectTemperatureCallbackThreshold('>', 100*10, 0);

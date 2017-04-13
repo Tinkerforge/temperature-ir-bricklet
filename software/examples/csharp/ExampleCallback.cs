@@ -22,7 +22,7 @@ class Example
 		// Don't use device before ipcon is connected
 
 		// Register object temperature callback to function ObjectTemperatureCB
-		tir.ObjectTemperature += ObjectTemperatureCB;
+		tir.ObjectTemperatureCallback += ObjectTemperatureCB;
 
 		// Set period for object temperature callback to 1s (1000ms)
 		// Note: The object temperature callback is only called every second
