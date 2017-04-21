@@ -14,7 +14,7 @@ tinkerforge dispatch temperature-ir-bricklet $uid object-temperature-reached\
  --execute "echo Object Temperature: {temperature} °C/10. The water is boiling!" &
 
 # Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
-tinkerforge call temperature-ir-bricklet $uid set-object-temperature-callback-threshold greater 1000 0
+tinkerforge call temperature-ir-bricklet $uid set-object-temperature-callback-threshold threshold-option-greater 1000 0
 
 echo "Press key to exit"; read dummy
 
