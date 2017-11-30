@@ -13,7 +13,7 @@ ipcon@Connect[host,port]
 (*Callback function for object temperature callback (parameter has unit °C/10)*)
 ObjectTemperatureCB[sender_,temperature_]:=
  Print["Object Temperature: "<>ToString[N[Quantity[temperature,"°C/10"]]]]
-AddEventHandler[tir@ObjectTemperature,ObjectTemperatureCB]
+AddEventHandler[tir@ObjectTemperatureCallback,ObjectTemperatureCB]
 
 (*Set period for object temperature callback to 1s (1000ms)*)
 (*Note: The object temperature callback is only called every second*)

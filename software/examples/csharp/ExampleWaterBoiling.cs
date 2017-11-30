@@ -29,7 +29,8 @@ class Example
 		// Get threshold callbacks with a debounce time of 10 seconds (10000ms)
 		tir.SetDebouncePeriod(10000);
 
-		// Register object temperature reached callback to function ObjectTemperatureReachedCB
+		// Register object temperature reached callback to function
+		// ObjectTemperatureReachedCB
 		tir.ObjectTemperatureReachedCallback += ObjectTemperatureReachedCB;
 
 		// Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
