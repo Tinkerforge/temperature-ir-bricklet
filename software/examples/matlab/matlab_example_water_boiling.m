@@ -18,8 +18,10 @@ function matlab_example_water_boiling()
     % Get threshold callbacks with a debounce time of 10 seconds (10000ms)
     tir.setDebouncePeriod(10000);
 
-    % Register object temperature reached callback to function cb_object_temperature_reached
-    set(tir, 'ObjectTemperatureReachedCallback', @(h, e) cb_object_temperature_reached(e));
+    % Register object temperature reached callback to function
+    % cb_object_temperature_reached
+    set(tir, 'ObjectTemperatureReachedCallback',
+        @(h, e) cb_object_temperature_reached(e));
 
     % Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
     tir.setObjectTemperatureCallbackThreshold('>', 100*10, 0);

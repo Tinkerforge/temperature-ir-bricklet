@@ -20,7 +20,7 @@ Module ExampleCallback
         ' Don't use device before ipcon is connected
 
         ' Register object temperature callback to subroutine ObjectTemperatureCB
-        AddHandler tir.ObjectTemperature, AddressOf ObjectTemperatureCB
+        AddHandler tir.ObjectTemperatureCallback, AddressOf ObjectTemperatureCB
 
         ' Set period for object temperature callback to 1s (1000ms)
         ' Note: The object temperature callback is only called every second

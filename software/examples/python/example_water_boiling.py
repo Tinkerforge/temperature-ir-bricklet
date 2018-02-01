@@ -26,8 +26,10 @@ if __name__ == "__main__":
     # Get threshold callbacks with a debounce time of 10 seconds (10000ms)
     tir.set_debounce_period(10000)
 
-    # Register object temperature reached callback to function cb_object_temperature_reached
-    tir.register_callback(tir.CALLBACK_OBJECT_TEMPERATURE_REACHED, cb_object_temperature_reached)
+    # Register object temperature reached callback to function
+    # cb_object_temperature_reached
+    tir.register_callback(tir.CALLBACK_OBJECT_TEMPERATURE_REACHED,
+                          cb_object_temperature_reached)
 
     # Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
     tir.set_object_temperature_callback_threshold(">", 100*10, 0)

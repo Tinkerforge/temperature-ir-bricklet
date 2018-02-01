@@ -37,7 +37,8 @@ int main(void) {
 	// Get threshold callbacks with a debounce time of 10 seconds (10000ms)
 	temperature_ir_set_debounce_period(&tir, 10000);
 
-	// Register object temperature reached callback to function cb_object_temperature_reached
+	// Register object temperature reached callback to function
+	// cb_object_temperature_reached
 	temperature_ir_register_callback(&tir,
 	                                 TEMPERATURE_IR_CALLBACK_OBJECT_TEMPERATURE_REACHED,
 	                                 (void *)cb_object_temperature_reached,

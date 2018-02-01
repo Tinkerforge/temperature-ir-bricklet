@@ -26,8 +26,10 @@ Module ExampleWaterBoiling
         ' Get threshold callbacks with a debounce time of 10 seconds (10000ms)
         tir.SetDebouncePeriod(10000)
 
-        ' Register object temperature reached callback to subroutine ObjectTemperatureReachedCB
-        AddHandler tir.ObjectTemperatureReached, AddressOf ObjectTemperatureReachedCB
+        ' Register object temperature reached callback to subroutine
+        ' ObjectTemperatureReachedCB
+        AddHandler tir.ObjectTemperatureReachedCallback, _
+                   AddressOf ObjectTemperatureReachedCB
 
         ' Configure threshold for object_temperature "greater than 100 °C" (unit is °C/10)
         tir.SetObjectTemperatureCallbackThreshold(">"C, 100*10, 0)

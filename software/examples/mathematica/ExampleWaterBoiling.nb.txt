@@ -23,7 +23,7 @@ ObjectTemperatureReachedCB[sender_,temperature_]:=
   Print["The water is boiling!"]
  ]
 
-AddEventHandler[tir@ObjectTemperatureReached,ObjectTemperatureReachedCB]
+AddEventHandler[tir@ObjectTemperatureReachedCallback,ObjectTemperatureReachedCB]
 
 (*Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)*)
 option=Tinkerforge`BrickletTemperatureIR`THRESHOLDUOPTIONUGREATER
