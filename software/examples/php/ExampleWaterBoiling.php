@@ -10,7 +10,7 @@ const HOST = 'localhost';
 const PORT = 4223;
 const UID = 'XYZ'; // Change XYZ to the UID of your Temperature IR Bricklet
 
-// Callback function for object temperature reached callback (parameter has unit °C/10)
+// Callback function for object temperature reached callback
 function cb_objectTemperatureReached($temperature)
 {
     echo "Object Temperature: " . $temperature/10.0 . " °C\n";
@@ -33,7 +33,7 @@ $tir->setDebouncePeriod(10000);
 $tir->registerCallback(BrickletTemperatureIR::CALLBACK_OBJECT_TEMPERATURE_REACHED,
                        'cb_objectTemperatureReached');
 
-// Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
+// Configure threshold for object temperature "greater than 100 °C"
 $tir->setObjectTemperatureCallbackThreshold('>', 100*10, 0);
 
 echo "Press ctrl+c to exit\n";

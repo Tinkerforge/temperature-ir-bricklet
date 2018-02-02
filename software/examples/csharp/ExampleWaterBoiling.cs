@@ -7,7 +7,7 @@ class Example
 	private static int PORT = 4223;
 	private static string UID = "XYZ"; // Change XYZ to the UID of your Temperature IR Bricklet
 
-	// Callback function for object temperature reached callback (parameter has unit °C/10)
+	// Callback function for object temperature reached callback
 	static void ObjectTemperatureReachedCB(BrickletTemperatureIR sender,
 	                                       short temperature)
 	{
@@ -33,7 +33,7 @@ class Example
 		// ObjectTemperatureReachedCB
 		tir.ObjectTemperatureReachedCallback += ObjectTemperatureReachedCB;
 
-		// Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
+		// Configure threshold for object temperature "greater than 100 °C"
 		tir.SetObjectTemperatureCallbackThreshold('>', 100*10, 0);
 
 		Console.WriteLine("Press enter to exit");

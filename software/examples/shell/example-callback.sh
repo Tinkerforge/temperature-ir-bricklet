@@ -3,7 +3,7 @@
 
 uid=XYZ # Change XYZ to the UID of your Temperature IR Bricklet
 
-# Handle incoming object temperature callbacks (parameter has unit °C/10)
+# Handle incoming object temperature callbacks
 tinkerforge dispatch temperature-ir-bricklet $uid object-temperature &
 
 # Set period for object temperature callback to 1s (1000ms)

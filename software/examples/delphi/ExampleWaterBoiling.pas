@@ -25,7 +25,7 @@ const
 var
   e: TExample;
 
-{ Callback procedure for object temperature reached callback (parameter has unit °C/10) }
+{ Callback procedure for object temperature reached callback }
 procedure TExample.ObjectTemperatureReachedCB(sender: TBrickletTemperatureIR;
                                               const temperature: smallint);
 begin
@@ -54,7 +54,7 @@ begin
   { Register object temperature reached callback to procedure ObjectTemperatureReachedCB }
   tir.OnObjectTemperatureReached := {$ifdef FPC}@{$endif}ObjectTemperatureReachedCB;
 
-  { Configure threshold for object temperature "greater than 100 °C" (unit is °C/10) }
+  { Configure threshold for object temperature "greater than 100 °C" }
   tir.SetObjectTemperatureCallbackThreshold('>', 100*10, 0);
 
   WriteLn('Press key to exit');

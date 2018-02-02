@@ -23,14 +23,14 @@ function matlab_example_water_boiling()
     set(tir, 'ObjectTemperatureReachedCallback',
         @(h, e) cb_object_temperature_reached(e));
 
-    % Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
+    % Configure threshold for object temperature "greater than 100 °C"
     tir.setObjectTemperatureCallbackThreshold('>', 100*10, 0);
 
     input('Press key to exit\n', 's');
     ipcon.disconnect();
 end
 
-% Callback function for object temperature reached callback (parameter has unit °C/10)
+% Callback function for object temperature reached callback
 function cb_object_temperature_reached(e)
     fprintf('Object Temperature: %g °C\n', e.temperature/10.0);
     fprintf('The water is boiling!\n');

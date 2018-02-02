@@ -22,14 +22,14 @@ ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
         // Get threshold callbacks with a debounce time of 10 seconds (10000ms)
         tir.setDebouncePeriod(10000);
 
-        // Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
+        // Configure threshold for object temperature "greater than 100 °C"
         tir.setObjectTemperatureCallbackThreshold('>', 100*10, 0);
     }
 );
 
 // Register object temperature reached callback
 tir.on(Tinkerforge.BrickletTemperatureIR.CALLBACK_OBJECT_TEMPERATURE_REACHED,
-    // Callback function for object temperature reached callback (parameter has unit °C/10)
+    // Callback function for object temperature reached callback
     function (temperature) {
         console.log('Object Temperature: ' + temperature/10.0 + ' °C');
         console.log('The water is boiling!');

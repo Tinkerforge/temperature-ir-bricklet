@@ -6,7 +6,7 @@ Module ExampleWaterBoiling
     Const PORT As Integer = 4223
     Const UID As String = "XYZ" ' Change XYZ to the UID of your Temperature IR Bricklet
 
-    ' Callback subroutine for object temperature reached callback (parameter has unit °C/10)
+    ' Callback subroutine for object temperature reached callback
     Sub ObjectTemperatureReachedCB(ByVal sender As BrickletTemperatureIR, _
                                    ByVal temperature As Short)
         Console.WriteLine("Object Temperature: " + (temperature/10.0).ToString() + " °C")
@@ -31,7 +31,7 @@ Module ExampleWaterBoiling
         AddHandler tir.ObjectTemperatureReachedCallback, _
                    AddressOf ObjectTemperatureReachedCB
 
-        ' Configure threshold for object_temperature "greater than 100 °C" (unit is °C/10)
+        ' Configure threshold for object_temperature "greater than 100 °C"
         tir.SetObjectTemperatureCallbackThreshold(">"C, 100*10, 0)
 
         Console.WriteLine("Press key to exit")

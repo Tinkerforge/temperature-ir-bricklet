@@ -7,7 +7,7 @@ use constant HOST => 'localhost';
 use constant PORT => 4223;
 use constant UID => 'XYZ'; # Change XYZ to the UID of your Temperature IR Bricklet
 
-# Callback subroutine for object temperature reached callback (parameter has unit °C/10)
+# Callback subroutine for object temperature reached callback
 sub cb_object_temperature_reached
 {
     my ($temperature) = @_;
@@ -32,7 +32,7 @@ $tir->set_debounce_period(10000);
 $tir->register_callback($tir->CALLBACK_OBJECT_TEMPERATURE_REACHED,
                         'cb_object_temperature_reached');
 
-# Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
+# Configure threshold for object temperature "greater than 100 °C"
 $tir->set_object_temperature_callback_threshold('>', 100*10, 0);
 
 print "Press key to exit\n";

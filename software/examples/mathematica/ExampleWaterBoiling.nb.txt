@@ -16,7 +16,7 @@ tir@SetEmissivity[64224]
 (*Get threshold callbacks with a debounce time of 10 seconds (10000ms)*)
 tir@SetDebouncePeriod[10000]
 
-(*Callback function for object temperature reached callback (parameter has unit °C/10)*)
+(*Callback function for object temperature reached callback*)
 ObjectTemperatureReachedCB[sender_,temperature_]:=
  Module[{},
   Print["Object Temperature: "<>ToString[N[Quantity[temperature,"°C/10"]]]];
@@ -25,7 +25,7 @@ ObjectTemperatureReachedCB[sender_,temperature_]:=
 
 AddEventHandler[tir@ObjectTemperatureReachedCallback,ObjectTemperatureReachedCB]
 
-(*Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)*)
+(*Configure threshold for object temperature "greater than 100 °C"*)
 option=Tinkerforge`BrickletTemperatureIR`THRESHOLDUOPTIONUGREATER
 tir@SetObjectTemperatureCallbackThreshold[option,100*10,0]
 

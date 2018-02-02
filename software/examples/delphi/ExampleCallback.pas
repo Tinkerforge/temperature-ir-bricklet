@@ -25,7 +25,7 @@ const
 var
   e: TExample;
 
-{ Callback procedure for object temperature callback (parameter has unit °C/10) }
+{ Callback procedure for object temperature callback }
 procedure TExample.ObjectTemperatureCB(sender: TBrickletTemperatureIR;
                                        const temperature: smallint);
 begin

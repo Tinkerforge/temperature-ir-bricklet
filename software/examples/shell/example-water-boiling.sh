@@ -9,11 +9,11 @@ tinkerforge call temperature-ir-bricklet $uid set-emissivity 64224
 # Get threshold callbacks with a debounce time of 10 seconds (10000ms)
 tinkerforge call temperature-ir-bricklet $uid set-debounce-period 10000
 
-# Handle incoming object temperature reached callbacks (parameter has unit °C/10)
+# Handle incoming object temperature reached callbacks
 tinkerforge dispatch temperature-ir-bricklet $uid object-temperature-reached\
- --execute "echo Object Temperature: {temperature} °C/10. The water is boiling!" &
+ --execute "echo Object Temperature: {temperature}/10 °C. The water is boiling!" &
 
-# Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
+# Configure threshold for object temperature "greater than 100 °C"
 tinkerforge call temperature-ir-bricklet $uid set-object-temperature-callback-threshold threshold-option-greater 1000 0
 
 echo "Press key to exit"; read dummy

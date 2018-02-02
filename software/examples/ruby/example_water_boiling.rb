@@ -22,13 +22,13 @@ tir.set_emissivity 64224
 # Get threshold callbacks with a debounce time of 10 seconds (10000ms)
 tir.set_debounce_period 10000
 
-# Register object temperature reached callback (parameter has unit °C/10)
+# Register object temperature reached callback
 tir.register_callback(BrickletTemperatureIR::CALLBACK_OBJECT_TEMPERATURE_REACHED) do |temperature|
   puts "Object Temperature: #{temperature/10.0} °C"
   puts 'The water is boiling!'
 end
 
-# Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
+# Configure threshold for object temperature "greater than 100 °C"
 tir.set_object_temperature_callback_threshold '>', 100*10, 0
 
 puts 'Press key to exit'

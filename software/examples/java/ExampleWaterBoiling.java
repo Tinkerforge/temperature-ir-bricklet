@@ -23,7 +23,7 @@ public class ExampleWaterBoiling {
 		// Get threshold callbacks with a debounce time of 10 seconds (10000ms)
 		tir.setDebouncePeriod(10000);
 
-		// Add object temperature reached listener (parameter has unit °C/10)
+		// Add object temperature reached listener
 		tir.addObjectTemperatureReachedListener(new BrickletTemperatureIR.ObjectTemperatureReachedListener() {
 			public void objectTemperatureReached(short temperature) {
 				System.out.println("Object Temperature: " + temperature/10.0 + " °C");
@@ -31,7 +31,7 @@ public class ExampleWaterBoiling {
 			}
 		});
 
-		// Configure threshold for object temperature "greater than 100 °C" (unit is °C/10)
+		// Configure threshold for object temperature "greater than 100 °C"
 		tir.setObjectTemperatureCallbackThreshold('>', (short)(100*10), (short)0);
 
 		System.out.println("Press key to exit"); System.in.read();

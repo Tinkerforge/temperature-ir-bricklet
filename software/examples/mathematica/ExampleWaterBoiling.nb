@@ -26,14 +26,14 @@ Notebook[{
    RowBox[{"tir", "@", RowBox[{"SetDebouncePeriod", "[", "10000", "]"}]}],
    RowBox[{"
 "}],
-   RowBox[{"(*", "Callback function for object temperature reached callback (parameter has unit \.b0C/10)", "*)"}],
+   RowBox[{"(*", "Callback function for object temperature reached callback", "*)"}],
    RowBox[{RowBox[{"ObjectTemperatureReachedCB", "[", RowBox[{"sender_", ",", "temperature_"}], "]"}], ":=", "\[IndentingNewLine]", RowBox[{"Module", "[", RowBox[{RowBox[{"{", "}"}], ",", RowBox[{"\[IndentingNewLine]", RowBox[{"Print", "[", RowBox[{"\"\<Object Temperature: \>\"", "<>", RowBox[{"ToString", "[", RowBox[{"N", "[", RowBox[{"Quantity", "[", RowBox[{"temperature", ",", "\"\<\.b0C/10\>\""}], "]"}], "]"}], "]"}]}], "]"}], ";", "\[IndentingNewLine]", RowBox[{"Print", "[", "\"\<The water is boiling!\>\"", "]"}], "\[IndentingNewLine]"}]}], "]"}]}],
    RowBox[{"
 "}],
    RowBox[{"AddEventHandler", "[", RowBox[{RowBox[{"tir", "@", "ObjectTemperatureReachedCallback"}], ",", "ObjectTemperatureReachedCB"}], "]"}],
    RowBox[{"
 "}],
-   RowBox[{"(*", "Configure threshold for object temperature ", "\"\<greater than 100 \.b0C\>\"", " (unit is \.b0C/10)", "*)"}],
+   RowBox[{"(*", "Configure threshold for object temperature ", "\"\<greater than 100 \.b0C\>\"", "", "*)"}],
    RowBox[{"option", "=", "Tinkerforge`BrickletTemperatureIR`THRESHOLDUOPTIONUGREATER"}],
    RowBox[{"tir", "@", RowBox[{"SetObjectTemperatureCallbackThreshold", "[", RowBox[{"option", ",", RowBox[{"100", "*", "10"}], ",", "0"}], "]"}]}],
    RowBox[{"
