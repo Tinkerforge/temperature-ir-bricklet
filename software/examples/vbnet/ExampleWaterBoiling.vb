@@ -31,7 +31,7 @@ Module ExampleWaterBoiling
         AddHandler tir.ObjectTemperatureReachedCallback, _
                    AddressOf ObjectTemperatureReachedCB
 
-        ' Configure threshold for object_temperature "greater than 100 °C"
+        ' Configure threshold for object temperature "greater than 100 °C"
         tir.SetObjectTemperatureCallbackThreshold(">"C, 100*10, 0)
 
         Console.WriteLine("Press key to exit")
