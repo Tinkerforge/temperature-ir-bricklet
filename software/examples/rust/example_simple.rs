@@ -1,25 +1,25 @@
 use std::{error::Error, io};
 
-use tinkerforge::{ipconnection::IpConnection, temperature_ir_bricklet::*};
+use tinkerforge::{ip_connection::IpConnection, temperature_ir_bricklet::*};
 
-const HOST: &str = "127.0.0.1";
+const HOST: &str = "localhost";
 const PORT: u16 = 4223;
-const UID: &str = "XYZ"; // Change XYZ to the UID of your Temperature IR Bricklet
+const UID: &str = "XYZ"; // Change XYZ to the UID of your Temperature IR Bricklet.
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let ipcon = IpConnection::new(); // Create IP connection
-    let temperature_ir_bricklet = TemperatureIRBricklet::new(UID, &ipcon); // Create device object
+    let ipcon = IpConnection::new(); // Create IP connection.
+    let tir = TemperatureIrBricklet::new(UID, &ipcon); // Create device object.
 
-    ipcon.connect(HOST, PORT).recv()??; // Connect to brickd
-                                        // Don't use device before ipcon is connected
+    ipcon.connect((HOST, PORT)).recv()??; // Connect to brickd.
+                                          // Don't use device before ipcon is connected.
 
-    // Get current ambient temperature
-    let ambient_temperature = temperature_ir_bricklet.get_ambient_temperature().recv()?;
-    println!("Ambient Temperature: {}{}", ambient_temperature as f32 / 10.0, " °C");
+    // Get current ambient temperature.
+    let ambient_temperature = tir.get_ambient_temperature().recv()?;
+    println!("Ambient Temperature: {} °C", ambient_temperature as f32 / 10.0);
 
-    // Get current object temperature
-    let object_temperature = temperature_ir_bricklet.get_object_temperature().recv()?;
-    println!("Object Temperature: {}{}", object_temperature as f32 / 10.0, " °C");
+    // Get current object temperature.
+    let object_temperature = tir.get_object_temperature().recv()?;
+    println!("Object Temperature: {} °C", object_temperature as f32 / 10.0);
 
     println!("Press enter to exit.");
     let mut _input = String::new();
