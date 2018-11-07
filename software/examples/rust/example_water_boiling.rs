@@ -18,10 +18,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Get threshold receivers with a debounce time of 10 seconds (10000ms).
     tir.set_debounce_period(10000);
 
-    // Create receiver for object temperature reached events.
-    let object_temperature_reached_receiver = tir.get_object_temperature_reached_receiver();
+    let object_temperature_reached_receiver = tir.get_object_temperature_reached_callback_receiver();
 
-    // Spawn thread to handle received events. This thread ends when the `tir` object
+    // Spawn thread to handle received callback messages.
+    // This thread ends when the `tir` object
     // is dropped, so there is no need for manual cleanup.
     thread::spawn(move || {
         for object_temperature_reached in object_temperature_reached_receiver {
