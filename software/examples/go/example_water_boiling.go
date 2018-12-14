@@ -25,7 +25,7 @@ func main() {
 	tir.SetDebouncePeriod(10000)
 
 	tir.RegisterObjectTemperatureReachedCallback(func(temperature int16) {
-		fmt.Printf("Object Temperature: %d °C\n", float64(temperature)/10.0)
+		fmt.Printf("Object Temperature: %f °C\n", float64(temperature)/10.0)
 		fmt.Println("The water is boiling!")
 	})
 
