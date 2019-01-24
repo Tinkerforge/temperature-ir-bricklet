@@ -1,0 +1,12 @@
+
+
+# Change XYZ to the UID of your Temperature IR Bricklet
+
+setup:
+	# Handle incoming object temperature callbacks
+	subscribe to tinkerforge/callback/temperature_ir_bricklet/XYZ/object_temperature
+	publish '{"register": true}' to tinkerforge/register/temperature_ir_bricklet/XYZ/object_temperature # Register object_temperature callback
+	# Set period for object temperature callback to 1s (1000ms)
+	# Note: The object temperature callback is only called every second
+	#       if the object temperature has changed since the last call!
+	publish '{"period": 1000}' to tinkerforge/request/temperature_ir_bricklet/XYZ/set_object_temperature_callback_period

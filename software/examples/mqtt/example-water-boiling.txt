@@ -1,0 +1,14 @@
+
+
+# Change XYZ to the UID of your Temperature IR Bricklet
+
+setup:
+	# Set emissivity to 0.98 (emissivity of water, 65535 * 0.98 = 64224.299)
+	publish '{"emissivity": 64224}' to tinkerforge/request/temperature_ir_bricklet/XYZ/set_emissivity 
+	# Get threshold callbacks with a debounce time of 10 seconds (10000ms)
+	publish '{"debounce": 10000}' to tinkerforge/request/temperature-ir_bricklet/XYZ/set_debounce_period
+	# Handle incoming object temperature reached callbacks
+	subscribe to tinkerforge/callback/temperature_ir_bricklet/XYZ/object_temperature_reached
+	publish '{"register": true}' to tinkerforge/register/temperature_ir_bricklet/XYZ/object_temperature_reached # Register object_temperature_reached callback
+	# Configure threshold for object temperature "greater than 100 °C"
+	publish '{"option": "greater", "min_temperature": 1000, "max_temperature": 0}' to tinkerforge/request/temperature_ir_bricklet/XYZ/set_object_temperature_callback_threshold
