@@ -41,7 +41,7 @@ int main(void) {
 	// cb_object_temperature_reached
 	temperature_ir_register_callback(&tir,
 	                                 TEMPERATURE_IR_CALLBACK_OBJECT_TEMPERATURE_REACHED,
-	                                 (void *)cb_object_temperature_reached,
+	                                 (void (*)(void))cb_object_temperature_reached,
 	                                 NULL);
 
 	// Configure threshold for object temperature "greater than 100 °C"
