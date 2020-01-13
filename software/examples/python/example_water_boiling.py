@@ -34,5 +34,5 @@ if __name__ == "__main__":
     # Configure threshold for object temperature "greater than 100 °C"
     tir.set_object_temperature_callback_threshold(">", 100*10, 0)
 
-    raw_input("Press key to exit\n") # Use input() in Python 3
+    input("Press key to exit\n") # Use raw_input() in Python 2
     ipcon.disconnect()
