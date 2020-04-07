@@ -13,7 +13,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                                           // Don't use device before ipcon is connected.
 
     // Set emissivity to 0.98 (emissivity of water, 65535 * 0.98 = 64224.299)
-    tir.set_emissivity(64224);
+    tir.set_emissivity(64224).recv()?;
 
     // Get threshold receivers with a debounce time of 10 seconds (10000ms).
     tir.set_debounce_period(10000);
