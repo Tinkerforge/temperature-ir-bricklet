@@ -5,7 +5,7 @@ setup:
 	publish '{"emissivity": 64224}' to tinkerforge/request/temperature_ir_bricklet/XYZ/set_emissivity
 
 	# Get threshold callbacks with a debounce time of 10 seconds (10000ms)
-	publish '{"debounce": 10000}' to tinkerforge/request/temperature-ir_bricklet/XYZ/set_debounce_period
+	publish '{"debounce": 10000}' to tinkerforge/request/temperature_ir_bricklet/XYZ/set_debounce_period
 
 	# Handle incoming object temperature reached callbacks
 	subscribe to tinkerforge/callback/temperature_ir_bricklet/XYZ/object_temperature_reached
